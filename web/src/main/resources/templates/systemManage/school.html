@@ -1,0 +1,350 @@
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+
+<style>
+    .dataTables_filter {
+        margin-left: -620px;
+        width: 220px;
+    }
+
+    #schoolTable tr{
+        cursor: pointer;
+    }
+
+</style>
+<section class="content-header">
+    <h1><span th:text="${distinctName}">沙坪坝区</span>—学校管理</h1>
+    <!--这是页面定位开始-->
+    <ol class="breadcrumb">
+        <li>
+            <a href="#"><i class="fa fa-home"></i> 系统设置</a>
+        </li>
+        <li class="active">学校管理</li>
+    </ol>
+
+    <!--这是页面定位结束-->
+</section>
+
+<section style="background:#f4f4f4;min-height: 918px;margin-top:10px; ">
+    <section class="content">
+        <div class="box-body" style="background: #ffffff !important;">
+            <button  class="btn btn-flat the_button "  sec:authorize="hasAuthority('DISTNCTADMIN')||hasAuthority('HUANFANGADMIN')" style="position: absolute;margin-left: 466px;z-index: 100;height: 30px;line-height: 15px;" data-toggle="modal" data-target="#addSchool">
+                <i class="fa fa-plus "></i>
+                添加学校
+            </button>
+            <table id="schoolTable" class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                <th>学校名称</th>
+                <th>学校代码</th>
+                <th>学校类型</th>
+                <th>联系电话</th>
+                <th>学校地址</th>
+                <th>学校简介</th>
+                <th style="width: 230px;">操作</th>
+
+                </tr>
+                </thead>
+            </table>
+
+        </div>
+    </section>
+</section>
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="addSchool" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    新增学校
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form" action="/bbt/school/addSchool" method="post">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">学校名称</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="schoolName" placeholder="请输入学校名称"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">学校代码</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="schoolCode" placeholder="请输入学校名称"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">学校类型</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" name="schoolType">
+                                <option th:each="schoolType : ${schoolTypeList} " th:value="${schoolType.id}"
+                                        th:text="${schoolType.name}"></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">联系电话</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="schoolPhone" placeholder="请输入联系电话"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">地址</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="schoolAddress" placeholder="请输入地址"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label  class="col-sm-2 control-label">网关IP</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="gatewayIp" placeholder="请输入网关IP,可不填"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">简介</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" rows="3" name="schoolDescription"></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                </button>
+                <button type="button" class="btn btn-primary">
+                    保存
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="modifySchool" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
+                </button>
+                <h4 class="modal-title">
+                    修改学校
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form" action="/bbt/school/modifySchool" method="post">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">学校名称</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="schoolName" placeholder="请输入学校名称"/>
+                        </div>
+                    </div>
+                    <div class="form-group" style="display: none">
+                        <label class="col-sm-2 control-label">学校代码</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="schoolCode" placeholder="请输入学校名称"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">学校类型</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" name="schoolType">
+                                <option th:each="schoolType : ${schoolTypeList} " th:value="${schoolType.id}" th:text="${schoolType.name}"></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">联系电话</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="schoolPhone" placeholder="请输入联系电话"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">地址</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="schoolAddress" placeholder="请输入地址"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">网关IP</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="gatewayIp" placeholder="请输入网关IP,可不填"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">简介</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" rows="3" name="schoolDescription"></textarea>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                </button>
+                <button type="button" class="btn btn-primary">
+                    保存
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<script th:inline="javascript">
+    $(function () {
+        var table=loadSchoolDataTable();
+        doAddSchool(table);
+        modifySchool(table);
+        deleteSchool(table);
+        forwardBuilding();
+    });
+
+    function loadSchoolDataTable() {
+        var schoolTable=$('#schoolTable').DataTable({
+            'paging': true,
+            'lengthChange': true,
+            'searching': true,
+            'ordering': true,
+            'info': true,
+            'autoWidth': true,
+            "ajax": '/bbt/school/loadSchoolList',
+            "columnDefs": [ {
+                "targets": 6,
+                "data": null,
+                "searchable":false,
+                "render":function (data, type, row, meta) {
+                    var currentRoleName= [[${currentRole.roleName}]];
+                    var currentSchoolCode=[[${currentSchoolCode}]];
+                    var htmlButton='';
+                    if(currentRoleName=='HUANFANGADMIN'){
+                        htmlButton+=' <button type="button" schoolCode="'+data[1]+'" name="lookBuilding" class="btn btn-sm btn-default">查看教学楼</button> ';
+                    }else if(currentRoleName=='SCHOOLADMIN'){
+                        if(currentSchoolCode==data[1]){
+                            htmlButton+=' <button  type="button" schoolCode="'+data[1]+'" name="lookBuilding" class="btn btn-sm btn-default">查看教学楼</button> ';
+                        }
+                    }
+
+                    return ' <button type="button" schoolCode="'+data[1]+'" name="modifySchool" class="btn btn-sm btn-default">修改信息</button>' +
+                        htmlButton +
+                        ' <button type="button" schoolCode="'+data[1]+'" name="deleteSchool" class="btn btn-sm btn-danger">删除学校</button>';
+                }
+
+            } ],
+            "language": { // 定义语言
+                "sProcessing": "加载中...",
+                "sLengthMenu": "每页显示 _MENU_ 条记录",
+                "sZeroRecords": "没有匹配的结果",
+                "sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+                "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
+                "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+                "sInfoPostFix": "",
+                "sSearch": "搜索:",
+                "sUrl": "",
+                "sEmptyTable": "表中数据为空",
+                "sLoadingRecords": "载入中...",
+                "sInfoThousands": ",",
+                "oPaginate": {
+                    "sFirst": "首页",
+                    "sPrevious": "上一页",
+                    "sNext": "下一页",
+                    "sLast": "末页"
+                },
+
+            }
+        });
+        return schoolTable;
+    }
+    //添加学校
+    function doAddSchool(table) {
+        $('#addSchool').find('.btn-primary').on('click', function () {
+
+
+            $('#addSchool').find('form').ajaxSubmit(function (result) {
+                alert(result);
+                $('#addSchool').modal('hide');
+                table.ajax.reload();
+            });
+        });
+
+
+        $('#addSchool').on('hide.bs.modal', function () {
+            $(this).find('.form-group').removeClass('has-error');
+            $(this).find('.form-group input,select,textarea').val('');
+        })
+    }
+    //修改学校
+    function modifySchool(table) {
+
+        $(document).off('click','button[name="modifySchool"]').on('click','button[name="modifySchool"]', function (e) {
+            var schoolCode = $(this).attr('schoolCode');
+            $.post('/bbt/school/findSchoolBySchoolCode', {schoolCode: schoolCode}, function (result) {
+                $('#modifySchool input[name="schoolName"]').val(result.schoolName);
+                $('#modifySchool input[name="schoolCode"]').val(result.schoolCode);
+                $('#modifySchool select[name="schoolType"]').val(result.schoolType);
+                $('#modifySchool input[name="schoolPhone"]').val(result.schoolPhone);
+                $('#modifySchool input[name="schoolAddress"]').val(result.schoolAddress);
+                $('#modifySchool input[name="gatewayIp"]').val(result.gatewayIp);
+                $('#modifySchool textarea[name="schoolDescription"]').val(result.schoolDescription);
+
+                $('#modifySchool').modal('show');
+
+            });
+            e.stopPropagation();
+        });
+
+
+        $('#modifySchool').on('hide.bs.modal', function () {
+            $(this).find('.form-group').removeClass('has-error');
+            $(this).find('.form-group input,select,textarea').val('');
+        });
+
+        $('#modifySchool').find('.btn-primary').on('click', function () {
+
+
+            $('#modifySchool').find('form').ajaxSubmit(function (result) {
+                alert(result);
+                $('#modifySchool').modal('hide');
+                table.ajax.reload();
+            });
+        });
+
+    }
+
+    //删除学校
+    function deleteSchool(table) {
+        $(document).off('click','button[name="deleteSchool"]').on('click','button[name="deleteSchool"]',function (e) {
+            var flag=confirm('删除学校将删除该学校的教师和所有数据,确定要删除吗?');
+            if (!flag){
+                e.stopPropagation();
+                return;
+            }
+            var schoolCode=$(this).attr('schoolCode');
+            $.post('/bbt/school/deleteSchool',{schoolCode:schoolCode},function (result){
+                alert(result);
+                table.ajax.reload();
+			});
+            e.stopPropagation();
+        });
+    };
+
+    function forwardBuilding() {
+
+        $(document).off('click','button[name="lookBuilding"]').on('click','button[name="lookBuilding"]',function (e) {
+            var schoolCode=$(this).attr('schoolCode');
+            $.get('/bbt/school/forwardBuilding',{schoolCode:schoolCode},function (result) {
+                $(".content-wrapper").html(result);
+            });
+            e.stopPropagation();
+        });
+
+        $(document).off('click','#schoolTable tr').on('click','#schoolTable tr',function () {
+           $(this).find('button[name="lookBuilding"]').trigger('click');
+
+        });
+
+    }
+
+    
+
+</script>
+</html>

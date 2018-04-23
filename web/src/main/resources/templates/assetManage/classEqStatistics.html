@@ -1,0 +1,127 @@
+<html>
+
+<section class="content-header">
+    <h1 th:text="${grade.name}+${classes.className}+'--设备情况'">天星桥中学--设备情况</h1>
+    <ol class="breadcrumb">
+        <li>
+            <a href="#"><i class="fa fa-home"></i> 资产管理</a>
+        </li>
+        <li class="active">资产统计</li>
+    </ol>
+    <!--这是页面定位结束-->
+</section>
+
+<section class="content">
+    <!--这是用户列表开始-->
+    <div class="box">
+
+        <div class="box-body" style="background: #ffffff !important;">
+            <table id="schoolDetailTable" class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th>设备名称</th>
+                    <th>品牌</th>
+                    <th>规格型号</th>
+                    <th>单价</th>
+                    <th>配备日期</th>
+                    <th>维修次数</th>
+                    <th>设备状态</th>
+                    <th>维护倒计时(天)</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+
+            </table>
+
+        </div>
+
+    </div><!--这是用户列表结束-->
+</section>
+
+<script th:inline="javascript">
+    $(function () {
+        loadSchoolStatistics();
+        //forwardClassStatics();
+        approScrap();
+    });
+
+    function loadSchoolStatistics() {
+        $('#schoolDetailTable').DataTable({
+            'paging': true,
+            'lengthChange': true,
+            'searching': true,
+            'ordering': true,
+            'info': true,
+            'autoWidth': true,
+            "ajax": {
+                'url': '/bbt/statis/loadClassAssetStatis',
+                'data': {
+                    classId: [[${classes.id}]]
+                }
+            },
+            "columnDefs": [{
+                "targets": 6,
+                "data": null,
+                "render": function (data, type, row, meta) {
+                    var status=data[6];
+                    if(status==1){
+                        return  "完好";
+                    }else if(status==2){
+                        return  "维修中";
+                    }else if(status==3){
+                        return "报废";
+                    }
+                }
+            },
+                {
+                    "targets": 8,
+                    "data": null,
+                    "render": function (data, type, row, meta) {
+                        return ' <button type="button" accessoryId="'+data[8]+'" name="doScrap" class="btn btn-sm btn-default">申请报废</button> ';
+                    }
+                }
+            ],
+            "language": { // 定义语言
+                "sProcessing": "加载中...",
+                "sLengthMenu": "每页显示 _MENU_ 条记录",
+                "sZeroRecords": "没有匹配的结果",
+                "sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+                "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
+                "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+                "sInfoPostFix": "",
+                "sSearch": "搜索:",
+                "sUrl": "",
+                "sEmptyTable": "表中数据为空",
+                "sLoadingRecords": "载入中...",
+                "sInfoThousands": ",",
+                "oPaginate": {
+                    "sFirst": "首页",
+                    "sPrevious": "上一页",
+                    "sNext": "下一页",
+                    "sLast": "末页"
+                },
+            }
+        })
+    }
+
+    //申请报废
+    function approScrap() {
+
+        $(document).off('click','button[name="doScrap"]').on('click','button[name="doScrap"]',function () {
+            var accessoryId=$(this).attr('accessoryId');
+            if(confirm("确定要报废此设备?")){
+
+                $.post('/bbt/opertion/approScrap', {accessoryId: accessoryId,classId: [[${classes.id}]]}, function (result) {
+                    alert(result);
+                });
+            }
+
+        })
+
+    }
+
+
+
+
+</script>
+</html>

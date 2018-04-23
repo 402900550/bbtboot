@@ -1,0 +1,51 @@
+##########################################自定义系统参数配置
+custom:
+  distinct:
+   code: 51006
+   name: 沙坪坝区
+https:
+  port: 443
+  key-store-path: c:/www.cqhfkj.com.jks
+  key-password: vcxal5m1t6tr15
+wx:
+  app-id: wxd0322c44022739f7
+  app-secret: eacd7abad3511aac456b5663eeb14a0f
+##########################################下面是项目配置
+server:
+  port: 80
+  context-path: /bbt
+  jsp-servlet:
+    init-parameters:
+     development: true
+security:
+  basic:
+    enabled: false
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/boot?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false&zeroDateTimeBehavior=convertToNull
+    username: root
+    password: huanfang
+
+    dbcp2:
+      min-idle: 10
+      max-wait-millis: 10000
+      max-idle: 50
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    open-in-view: true
+  thymeleaf:
+    cache: false
+    prefix: classpath:/templates/
+    suffix: .html
+    encoding: UTF-8
+    content-type: text/html
+    mode: HTML5
+  mvc:
+    favicon:
+      enabled: false
+logging:
+  file: C:/bbtLogs/bbt.log
+  level: debug

@@ -1,0 +1,375 @@
+ul,
+li {
+	list-style: none;
+}
+
+a{
+	cursor: pointer;
+}
+/*这是logo图片开始*/
+
+.the_logo {
+	width: 42px;
+	height: 42px;
+	background: url(../img/logo.png) no-repeat;
+	float: left;
+	margin-top: 8px;
+	margin-left: -19px;
+}
+
+
+/*这是logo图片结束*/
+
+
+/*这是资金投入的图片开始*/
+
+.the_money {
+	width: 23px;
+	height: 26px;
+	background: url(../img/money.png) no-repeat;
+	float: left;
+	margin-top: 3px;
+	margin-right: 5px;
+}
+
+
+/*这是资金投入的图片开始*/
+
+
+/*这是环境检测开始*/
+
+.environmental {
+	line-height: 40px;
+	font-size: 20px;
+	color: #444;
+	margin-left:10px;
+	width: 90%;
+	height: 42px;
+	position: absolute;
+}
+
+.the_region {
+	width: 90%;
+	height: 40px;
+	border-bottom: 2px solid #c2c2c2;
+	margin-left:2%;
+}
+
+.the_region>li {
+	width: 50px;
+	height: 25px;
+	float: left;
+	margin: 0 auto;
+	line-height: 25px;
+	text-align: center;
+	margin-left: 20px;
+	border: 1px solid #d8d8d8;
+	border-radius: 3px;
+	cursor: pointer;
+}
+
+.the_region>li:hover {
+	border-top: 3px solid #63a5cc;
+}
+
+.see_more {
+	height: 25px !important;
+	background: #ffffff !important;
+	line-height: 0px !important;
+}
+
+.see_more:hover {
+	background: #eeeeee !important;
+}
+
+.science_warp {
+	width: 100%;
+	height: 260px;
+}
+
+.science_monitor {
+	float: left;
+}
+.science_monitor>ul {
+	width: 30px;
+	margin-top:40px;
+	margin-left: -40px;
+}
+
+.science_monitor>ul>li {
+	height: 26px;
+	margin-top: 20px;
+	color: #444;
+	margin-left: -40px;
+}
+
+.the_science_warp {
+	height: 14px;
+	background: #d9d9d9;
+}
+
+.science_img {
+	width: 18px;
+	height: 37px;
+	background: url(../img/temperature_img.png) no-repeat;
+	float: right;
+	margin-top: -18px;
+	margin-right: -35px;
+}
+
+.humidity_img {
+	margin-right: -36px;
+	margin-top: -14px;
+	background: url(../img/humidity_img.png) no-repeat;
+}
+
+.PM_img {
+	width: 20px;
+	margin-top: -10px;
+	margin-right: -37px;
+	background: url(../img/PM_img.png) no-repeat;
+}
+
+.illumination_img {
+	margin-top: -18px;
+	margin-right: -37px;
+	background: url(../img/illumination_img.png) no-repeat;
+}
+
+.noise_img {
+	margin-top: -10px;
+	margin-right: -39px;
+	background: url(../img/noise_img.png) no-repeat;
+}
+
+.scienceSmall {
+	float: right;
+	margin-top: -27px;
+	margin-right: -90px;
+	line-height: 0px;
+}
+
+.science_monitor>ul>li>div {
+	height: 14px;
+	float: left;
+	padding-left: 20px;
+	padding-right: 15px;
+}
+
+.temperature {
+	background: #00a65a;
+}
+
+.humidity {
+	background: #f39c12;
+}
+
+.PM {
+	background: #00c0ef;
+}
+
+.illumination {
+	background: #3c8dbc;
+}
+
+.noise {
+	background: #dd4b39;
+}
+
+/*这是环境检测结束*/
+
+
+/*这是数据分析开始*/
+
+.theRegion>li {
+	margin-top: 5px;
+}
+
+.input-group {
+	width: 200px;
+}
+
+.the_btn {
+	height: 34px;
+}
+
+.the_input {
+	margin-top: -34px;
+	margin-left: 250px;
+}
+
+
+/*这是数据分析结束*/
+
+
+/*这是用户管理开始*/
+
+.user-image {
+	width: 100px;
+	height: 100px;
+	background: url(../img/xiao.png) no-repeat;
+	border-radius: 50%;
+}
+
+.upload {
+	width: 100px;
+	height: 25px;
+	margin-top: 10px;
+	border-radius: 5px;
+	background: #5ea5c7;
+	color: #ffffff;
+	text-align: center;
+	line-height: 25px;
+	cursor: pointer;
+}
+
+.upload:hover {
+	background: #65b0d4;
+}
+.user_left{
+	width: 8%;
+	border-right:1px solid #eeeeee;
+}
+.user_right {
+	width: 70%;
+	margin-top: -135px;
+	margin-left: 150px;
+}
+
+.the_user {
+	float: left;
+	font-size: 20px;
+	color: #7d7d7d;
+	margin-left: 10px;
+}
+
+.the_line {
+	float: left;
+	font-size: 28px;
+	font-weight: 600;
+	color: #7d7d7d;
+	margin-top: -4px;
+	margin-left: 4px;
+}
+
+.the_edit {
+	float: left;
+	font-size: 20px;
+	color: #db4f4f;
+	margin-left: 4px;
+	cursor: pointer;
+}
+
+.the_keep {
+	float: left;
+	font-size: 20px;
+	color: #db4f4f;
+	margin-left: 4px;
+	cursor: pointer;
+	display: none;
+}
+
+.the_cancel {
+	float: left;
+	font-size: 20px;
+	color: #db4f4f;
+	margin-left: 4px;
+	cursor: pointer;
+	display: none;
+}
+
+.megssage_warp {
+	width: 100%;
+	float: left;
+}
+
+.megssage_left>li {
+	float: left;
+	margin-top:10px;
+	margin-left:10px;
+}
+
+.megssage_right>li {
+	float: left;
+	margin-top:10px;
+	margin-left:10px;
+}
+
+.user_input {
+	background: #ffffff;
+	border: none;
+	padding-left:10px;
+	padding-right: 10px;
+	appearance: none;
+	-moz-appearance: none;
+	-webkit-appearance: none;
+}
+
+
+/*这是用户管理结束*/
+
+
+/*这是用户列表开始*/
+
+.user_select{
+	float: left;
+	height: 34px;
+	padding-left:10px;
+	padding-right:10px;
+	border-color: #d2d6de;
+	outline: none;
+}
+.the_left{
+	margin-left:20px;
+	float: left;
+}
+.the_button{
+	margin-left:20px;
+}
+.the_button:hover{
+	background: #d4d1d1;
+}
+tbody>tr:hover{
+	/*-webkit-transition:border linear .2s,-webkit-box-shadow linear .5s;*/
+	border-color:rgba(141,39,142,.75);
+	-webkit-box-shadow:0 0 18px rgba(111,1,32,3);
+}
+/*这是用户列表结束*/
+
+/*这是审批意见输入框开始*/
+
+.opinion_textarea{
+	height: 100px;
+	text-indent: 24px;
+	outline: none;
+	resize: none;
+}
+/*这是审批意思输入框结束*/
+
+/*这是窗口叉掉样式*/
+.window_cancel{
+	width: 15px;
+	height: 15px;
+	border-radius: 50%;
+	background: #bcbcbc;
+	cursor: pointer;
+	position: absolute;
+	top: 4%;
+	left: 79%;
+}
+.x{
+	width: 13px;
+	height: 13px;
+	background: url(../img/x.png) no-repeat 3px 3px;
+}
+.window_cancel:hover{
+	background: #3c8dbc;
+}
+
+/*这是媒体查询*/
+@media screen and (max-width:640px) {
+	.the_logo {
+		margin-left: 36px;
+		position: absolute;
+	}
+}

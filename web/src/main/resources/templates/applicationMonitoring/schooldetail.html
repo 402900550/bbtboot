@@ -1,0 +1,428 @@
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" th:href="@{/css/toggle.css}"/>
+<style>
+    .dataTables_filter {
+        margin-left: -620px;
+        width: 220px;
+    }
+    #schoolTable tr{
+        cursor: pointer;
+    }
+    .waste{
+        float: right;
+        margin-top: -24px;
+        display: block;
+        border: 2px solid #66BB6A;
+        padding: 3px;
+        border-radius: 37%;
+        color: #66BB6A;
+        font-size: 12px;
+    }
+</style>
+
+<section class="content-header">
+    <h1><span th:text="${school.name}"></span>—数据详情</h1>
+    <!--这是页面定位开始-->
+    <ol class="breadcrumb">
+        <li>
+            <a href="#"><i class="fa fa-home"></i> 应用检测</a>
+        </li>
+        <li class="active">实时数据</li>
+    </ol>
+
+    <!--这是页面定位结束-->
+</section>
+
+<section style="background:#f4f4f4;min-height: 918px;margin-top:10px; ">
+    <section class="content">
+        <div class="box-body" style="background: #ffffff !important;">
+            <table id="schoolTable" class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th>班级</th>
+                    <th>教师</th>
+                    <th>学科</th>
+                    <th>控制器状态</th>
+                    <th>电脑</th>
+                    <th>投影</th>
+                    <th>展台</th>
+                    <th>电灯(可操作)</th>
+                    <th>插座(可操作)</th>
+                    <th>空调(可操作)</th>
+                    <th>风扇(可操作)</th>
+                    <th>总功耗</th>
+                    <th>备注</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+
+
+                <tbody>
+                </tbody>
+            </table>
+
+        </div>
+
+        <div class="box-body" style="background: #ffffff !important;margin-top: 20px">
+            <table id="environmentTable" class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th>班级</th>
+                    <th>温度</th>
+                    <th>湿度</th>
+                    <th>PM2.5</th>
+                    <th>照度</th>
+                    <th>噪音</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+
+            </table>
+
+        </div>
+    </section>
+</section>
+
+<script th:inline="javascript">
+
+    $(function () {
+        var dataTable = loadTable();
+        onOff(dataTable);
+        flush=reflush(dataTable,1000*5);
+        toClassDetail();
+
+        var enTable = loadEnvironmentDataTable();
+        flush2=reflush(enTable,1000*60);
+
+    });
+
+    function loadTable() {
+        var table = $('#schoolTable').DataTable({
+            'paging': true,
+            'lengthChange': true,
+            'searching': true,
+            'ordering': true,
+            'info': true,
+            'autoWidth': true,
+            "ajax": {
+                url: '/bbt/data/showDetail',
+                data: {
+                    schoolCode: [[${school.schoolCode}]]
+                }
+            },
+            "columnDefs": [{
+                "targets": 3,
+                "data": function (data, type, row, meta) {
+                    var using = data[3];
+                    if (using == 1) {
+                        return "开启";
+                    } else if (using == 0) {
+                        return "关闭";
+                    } else {
+                        return "未检测";
+                    }
+                },
+                "searchable": false
+            }, {
+                "targets": 4,
+                "data": function (data, type, row, meta) {
+                    var using = data[4];
+                    if (using == 1) {
+                        return "开启";
+                    } else if (using == 0) {
+                        return "关闭";
+                    } else {
+                        return "未检测";
+                    }
+                },
+                "searchable": false
+            }, {
+                "targets": 5,
+                "data": function (data, type, row, meta) {
+                    var using = data[5];
+                    if (using == 1) {
+                        return "开启";
+                    } else if (using == 0) {
+                        return "关闭";
+                    } else {
+                        return "未检测";
+                    }
+                },
+                "searchable": false
+            }, {
+                "targets": 6,
+                "data": function (data, type, row, meta) {
+                    var using = data[6];
+                    if (using == 1) {
+                        return "开启";
+                    } else if (using == 0) {
+                        return "关闭";
+                    } else {
+                        return "未检测";
+                    }
+                },
+                "searchable": false
+            },
+                {
+                    "targets": 7,
+                    "data": null,
+                    "searchable": false,
+                    "render": function (data, type, row, meta) {
+                        return addHtmlOffOn(data[12], data[7], 'lights',data[13]);
+                    }
+                },
+                {
+                    "targets": 8,
+                    "data": null,
+                    "searchable": false,
+                    "render": function (data, type, row, meta) {
+                        return addHtmlOffOn(data[12], data[8], 'sockets',data[14]);
+                    }
+                }, {
+                    "targets": 9,
+                    "data": null,
+                    "searchable": false,
+                    "render": function (data, type, row, meta) {
+                        return addHtmlOffOn(data[12], data[9], 'air_conditioning',data[15]);
+                    }
+                }, {
+                    "targets": 10,
+                    "data": null,
+                    "searchable": false,
+                    "render": function (data, type, row, meta) {
+                        return addHtmlOffOn(data[12], data[10], 'fan',data[16]);
+                    }
+                },
+                {
+                    "targets": 11,
+                    "data": null,
+                    "searchable": false,
+                    "render": function (data, type, row, meta) {
+                        var total=data[13]+data[14]+data[15]+data[16]+"W";
+                        return total;
+                    }
+                },
+                {
+                    "targets": 12,
+                    "data": null,
+                    "searchable": false,
+                    "render": function (data, type, row, meta) {
+                        return data[11];
+                    }
+                },
+                {
+                    "targets": 13,
+                    "data": function (data, type, row, meta) {
+                        return '<button type="button"  equipmentNo="' + data[12] + '" name="classDetail"  class="btn btn-sm btn-default">使用详情</button>';
+                    },
+                    "searchable": false
+                }],
+            "language": { // 定义语言
+                "sProcessing": "加载中...",
+                "sLengthMenu": "每页显示 _MENU_ 条记录",
+                "sZeroRecords": "没有匹配的结果",
+                "sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+                "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
+                "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+                "sInfoPostFix": "",
+                "sSearch": "搜索:",
+                "sUrl": "",
+                "sEmptyTable": "表中数据为空",
+                "sLoadingRecords": "载入中...",
+                "sInfoThousands": ",",
+                "oPaginate": {
+                    "sFirst": "首页",
+                    "sPrevious": "上一页",
+                    "sNext": "下一页",
+                    "sLast": "末页"
+                },
+            }
+        });
+        return table;
+    }
+
+
+    //环境监测table
+    function loadEnvironmentDataTable() {
+        var environmentTable = $('#environmentTable').DataTable({
+            'paging': true,
+            'lengthChange': true,
+            'searching': true,
+            'ordering': true,
+            'info': true,
+            'ajax': {
+                'url': '/bbt/data/loadEnvironment',
+                'data': {
+                    schoolCode: [[${school.schoolCode}]]
+                }
+            },
+            "columnDefs": [{
+                "targets": 1,
+                "data": function (data, type, row, meta) {
+                    var temp = data[1];
+                    if (temp) {
+                        return temp + "°C";
+                    } else {
+                        return "未检测";
+                    }
+                },
+                "searchable": false
+            },
+                {
+                    "targets": 2,
+                    "data": function (data, type, row, meta) {
+                        var temp = data[2];
+                        if (temp) {
+                            return temp + "RH";
+                        } else {
+                            return "未检测";
+                        }
+                    },
+                    "searchable": false
+                },
+                {
+                    "targets": 3,
+                    "data": function (data, type, row, meta) {
+                        var temp = data[3];
+                        if (temp) {
+                            return temp + "μg/m3";
+                        } else {
+                            return "未检测";
+                        }
+                    },
+                    "searchable": false
+                },
+                {
+                    "targets": 4,
+                    "data": function (data, type, row, meta) {
+                        var temp = data[4];
+                        if (temp) {
+                            return temp + "lx";
+                        } else {
+                            return "未检测";
+                        }
+                    },
+                    "searchable": false
+                },
+                {
+                    "targets": 5,
+                    "data": function (data, type, row, meta) {
+                        var temp = data[5];
+                        if (temp) {
+                            return temp + "db";
+                        } else {
+                            return "未检测";
+                        }
+                    },
+                    "searchable": false
+                }],
+            'autoWidth': true,
+            "language": { // 定义语言
+                "sProcessing": "加载中...",
+                "sLengthMenu": "每页显示 _MENU_ 条记录",
+                "sZeroRecords": "没有匹配的结果",
+                "sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+                "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
+                "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+                "sInfoPostFix": "",
+                "sSearch": "搜索:",
+                "sUrl": "",
+                "sEmptyTable": "表中数据为空",
+                "sLoadingRecords": "载入中...",
+                "sInfoThousands": ",",
+                "oPaginate": {
+                    "sFirst": "首页",
+                    "sPrevious": "上一页",
+                    "sNext": "下一页",
+                    "sLast": "末页"
+                },
+
+            }
+        });
+        return environmentTable;
+    }
+
+
+    function addHtmlOffOn(eqNo, state, ctype,power) {
+        var equipmentNo = eqNo;
+        var status;
+        if (state == 1) {
+            status = 0;
+        } else if (state == 0) {
+            status = 1;
+        } else {
+            status = 1;
+        }
+        var powers;
+        if(power){
+            powers=power+'W';
+        }else {
+            powers='0W';
+        }
+
+        var html = '';
+        if (state == 1) {
+            html = '<a controlType="' + ctype + '" currentStatus="' + status + '" equipmentNo="' + equipmentNo + '" class="toggle toggle--on"></a><span class="waste">'+powers+'</span>';
+        } else {
+            html = '<a controlType="' + ctype + '" currentStatus="' + status + '" equipmentNo="' + equipmentNo + '" class="toggle toggle--off"></a><span class="waste">'+powers+'</span>';
+        }
+        return html;
+    }
+
+
+    //电控
+    function onOff(table) {
+
+        $(document).off('click', '.toggle').on('click', '.toggle', function (e) {
+            var $this = $(this);
+            e.preventDefault();
+            var equipmentNo = $this.attr('equipmentNo');
+            var status = $this.attr('currentStatus');
+            var controlType = $this.attr('controlType');
+            var data = {
+                order: status,
+                controlType: controlType,
+                equipmentNo: equipmentNo,
+                schoolCode: [[${school.schoolCode}]]
+            };
+            $.post('/bbt/data/turnOnOff', data, function (result) {
+                alert(result);
+                table.ajax.reload();
+            });
+            e.stopPropagation();
+        });
+
+    }
+
+    //定时刷新
+    function reflush(table,second) {
+        var timeFlush=setInterval(function () {
+            table.ajax.reload();
+        }, second);
+        return timeFlush;
+    }
+
+
+    function toClassDetail() {
+
+        $(document).off('click', 'button[name="classDetail"]').on('click', 'button[name="classDetail"]', function (e) {
+            var equipmentNo = $(this).attr('equipmentNo');
+            $.post('/bbt/data/toClassDetail', {equipmentNo: equipmentNo}, function (result) {
+                $('.content-wrapper').empty();
+                $('.content-wrapper').html(result);
+            });
+            e.stopPropagation();
+        });
+
+
+        $(document).off('click','#schoolTable tr td.sorting_1').on('click','#schoolTable tr td.sorting_1',function () {
+            $(this).parent().find('button[name="classDetail"]').trigger('click');
+        })
+
+
+    }
+
+</script>
+</html>

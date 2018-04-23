@@ -1,0 +1,54 @@
+.all_warp{
+    background:#f4f4f4;
+    min-height: 918px;
+    margin-top:10px;
+}
+.the_warp{
+    background: #ffffff;
+    float:left;
+    width: 98%;
+    margin-top:1%;
+    margin-left:1%;
+}
+.input_warp{
+    float: left;
+    width: 260px;
+    height: 40px;
+    margin-top:20px;
+    margin-left:20px;
+    background: #eceff4;
+    border-radius: 3px;
+}
+.input_warp>span{
+    float: right;
+    margin-right: 8px;
+    line-height: 40px;
+    color: #ff5a5d;
+    cursor: pointer;
+    font-weight: 600;
+}
+.equipmentInput{
+    float: left;
+    width: 240px;
+    height: 30px;
+    margin-top:5px;
+    margin-left:10px;
+    background: #ffffff;
+    border:none;
+    outline: none;
+    padding-left:20px;
+}
+.input_add{
+    margin-top: 242px;
+    position: relative;
+    margin-left: -440px;
+    margin-bottom: 20px;
+}
+@media screen and (max-width: 1366px){
+    .input_add{
+        margin-top: 0px;
+        margin-bottom: 20px;
+        margin-left: 50px;
+    }
+
+}

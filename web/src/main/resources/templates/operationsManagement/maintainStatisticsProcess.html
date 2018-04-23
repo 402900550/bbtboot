@@ -1,0 +1,200 @@
+<section class="content-header">
+    <h1>运维流程</h1>
+    <!--这是页面定位开始-->
+    <ol class="breadcrumb">
+        <li>
+            <a href="#"><i class="fa fa-home"></i> 运维管理</a>
+        </li>
+        <li class="active">运维统计</li>
+    </ol>
+    <!--这是页面定位结束-->
+</section>
+
+<section class="content">
+
+    <!--这是时间线开始-->
+    <div class="row">
+        <div class="col-md-12">
+            <ul class="timeline">
+                <li class="time-label" th:if="${opertionDetailVo!=null}"
+                    th:each="opertion,opstat : ${opertionDetailVo.actVos}">
+                    <span class="bg-blue">
+                        <span style="vertical-align: inherit;">
+                            <span style="vertical-align: inherit;"
+                                  th:text="${opertion.startDate}+'--'+${opertion.actName}">
+                                2014年2月10日
+                            </span>
+                        </span>
+                    </span>
+
+                    <i class="fa fa-hourglass-2 bg-blue"></i>
+
+                    <div class="timeline-item">
+                        <span class="time">
+                            <i class="fa fa-clock-o"></i>
+                            <span style="vertical-align: inherit;">
+                                <span style="vertical-align: inherit;" th:text="${opertion.endDate}">
+                                    12:05
+                                </span>
+                            </span>
+                        </span>
+
+                        <h3 class="timeline-header">
+                            <a href="#">
+                                <span style="vertical-align: inherit;">
+                                    <span style="vertical-align: inherit;" th:if="${opstat.index==0}"
+                                          th:text="${opertionDetailVo.opUserName}">
+                                        支持团队
+                                    </span>
+                                    <span style="vertical-align: inherit;" th:if="${opstat.index!=0}"
+                                          th:text="${opertion.processUnit}">
+                                        支持团队
+                                    </span>
+                                </span>
+                            </a>
+                            <span style="vertical-align: inherit;">
+                                <span style="vertical-align: inherit;" th:if="${opstat.index==0}"
+                                      th:text="${opertionDetailVo.exceptionDescription}">
+                                    发给你一封电子邮件
+                                </span>
+                                <span style="vertical-align: inherit;" th:if="${opstat.index!=0}"
+                                      th:text="${opertion.remark}">
+                                    发给你一封电子邮件
+                                </span>
+                            </span>
+                        </h3>
+
+                    </div>
+
+                </li>
+
+                <!--<li class="time-label">-->
+                <!--<span class="bg-aqua"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">-->
+                <!--2014年2月10日-->
+                <!--</font></font></span>-->
+
+                <!--<i class="fa fa-hourglass-2 bg-aqua"></i>-->
+
+                <!--<div class="timeline-item">-->
+                <!--<span class="time"><i class="fa fa-clock-o"></i><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> 5分钟前</font></font></span>-->
+
+                <!--<h3 class="timeline-header no-border"><a href="#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">莎拉杨</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">接受了你的朋友请求</font></font></h3>-->
+                <!--</div>-->
+                <!--</li>-->
+                <!--<li class="time-label">-->
+                <!--<span class="bg-yellow"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">-->
+                <!--2014年2月10日-->
+                <!--</font></font></span>-->
+
+                <!--<i class="fa fa-hourglass-2 bg-yellow"></i>-->
+
+                <!--<div class="timeline-item">-->
+                <!--<span class="time"><i class="fa fa-clock-o"></i><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> 27分钟前</font></font></span>-->
+
+                <!--<h3 class="timeline-header"><a href="#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">杰伊·怀特</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">评论你的帖子</font></font></h3>-->
+
+                <!--</div>-->
+                <!--</li>-->
+                <!--<li class="time-label">-->
+                <!--<span class="bg-purple"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">-->
+                <!--2014年1月3日-->
+                <!--</font></font></span>-->
+
+                <!--<i class="fa fa-hourglass-2 bg-purple"></i>-->
+
+                <!--<div class="timeline-item">-->
+                <!--<span class="time"><i class="fa fa-clock-o"></i><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> 2天前</font></font></span>-->
+
+                <!--<h3 class="timeline-header"><a href="#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Mina Lee</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">上传了新照片</font></font></h3>-->
+
+                <!--</div>-->
+                <!--</li>-->
+                <!--完成和未完成两种样式-->
+                <li th:if="${opertionDetailVo.endDate==null}">
+                    <i class="fa fa-clock-o bg-gray" style="margin-top:-50px"></i>
+                </li>
+                <li th:if="${opertionDetailVo.endDate!=null}">
+                    <i class="fa fa-check bg-green" style="margin-top:-40px;"></i>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!--这是时间线结束-->
+
+</section>
+<section class="content" th:if="${opertionDetailVo.canProcess==1}">
+    <!--这是审批意见开始-->
+    <div class="box">
+
+        <div class="box-header">审批意见:</div>
+        <select th:if="${opertionDetailVo.canChoose==1}" class="form-control" style="width: 120px;margin-left: 10px;"
+                id="choose">
+            <option value="end">处理完成</option>
+            <option value="no">转接他人</option>
+        </select>
+        <select th:if="${opertionDetailVo.canChoose==1}" class="form-control" id="chooseCompany"
+                style="width: 120px;margin-left: 150px;margin-top: -34px;display: none">
+            <option value="">请选择维修公司</option>
+            <option th:if="${companys!=null}" th:each="company : ${companys} " th:value="${company.id}"
+                    th:text="${company.name}"></option>
+        </select>
+        <div class="box-body">
+            <textarea class="col-lg-12 opinion_textarea" id="processAdvice"></textarea>
+        </div>
+        <button id="submitAdvice" type="button" class="btn bg-purple" style="margin-left:48%;margin-bottom: 20px;">
+            <i class="fa fa-save"></i>
+            提交
+        </button>
+    </div>
+    <!--这是审批意见结束-->
+</section>
+<script th:inline="javascript">
+
+    $(function () {
+        changeChoose();
+        doSubmitAdvice();
+    });
+
+    function changeChoose() {
+
+        $(document).off('change', '#choose').on('change', '#choose', function () {
+            var val = $(this).val();
+            if (val == 'end') {
+                $('#chooseCompany').hide();
+            }
+            if (val == 'no') {
+                $('#chooseCompany').show();
+            }
+
+        })
+
+    }
+
+
+    function doSubmitAdvice() {
+        $(document).off('click', '#submitAdvice').on('click', '#submitAdvice', function () {
+            var choose = $('#choose').val();
+            var chooseCompany = $('#chooseCompany').val();
+            var taskId = [[${opertionDetailVo.taskId}]];
+            var processAdvice = $('#processAdvice').val();
+            var opertionId=[[${opertionDetailVo.opertionId}]];
+            $.post('/bbt/opertion/doSubmitAdvice', {
+                    choose: choose,
+                    chooseCompany: chooseCompany,
+                    taskId: taskId,
+                    processAdvice: processAdvice,
+                    opertionId:opertionId
+                },
+                function (result) {
+                    alert(result);
+                    $.post('/bbt/opertion/forwardToOpertionProcess', {opertionId: opertionId}, function (result) {
+                        $('.content-wrapper').empty();
+                        $('.content-wrapper').html(result);
+                    })
+                });
+        })
+    }
+
+
+</script>

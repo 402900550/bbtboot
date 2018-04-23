@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <style>
+        .morris-default-style{
+            position: absolute; !important;
+        }
+    </style>
+</head>
+
+<body>
+
+<section class="content-header">
+    <h1><span>沙坪坝区</span>—物联网智慧教育系统</h1>
+    <!--这是页面定位开始-->
+    <ol class="breadcrumb">
+        <li>
+            <a href="#"><i class="fa fa-home"></i> Home</a>
+        </li>
+        <li class="active">首页</li>
+    </ol>
+    <!--这是页面定位结束-->
+</section>
+
+<section class="content" style="background:#f4f4f4;margin-top:10px;">
+    <!--这是资产统计开始-->
+    <div class="row">
+        <div  name="lookMore" class="col-lg-3 col-xs-6" style="cursor: pointer">
+            <div class="small-box bg-aqua">
+                <div class="inner">
+                    <h3 th:text="${accessoryPrice[0][0]}+'/'+${accessoryPrice[0][1]}"></h3>
+                    <p>资产总额/设备(套)</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-glyphicon glyphicon-yen"></i>
+                </div>
+                <a class="small-box-footer">查看更多 <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <div  name="lookMore" class="col-lg-3 col-xs-6" style="cursor: pointer">
+            <div class="small-box bg-green">
+                <div class="inner">
+                    <h3>
+                        <span  th:text="${classRoomEq[0][0]}"></span>/
+                        <span  th:if="${classRoomEq[0][1]!=null}" th:text="${classRoomEq[0][1]}*100+'%'" >0%</span>
+                    </h3>
+
+                    <p>监测班级数/检测率</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-stats-bars"></i>
+                </div>
+                <a  class="small-box-footer ">查看更多 <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <div  name="lookMoreDataTime" class="col-lg-3 col-xs-6" style="cursor: pointer">
+            <div class="small-box bg-yellow">
+                <div class="inner">
+                    <h3>
+                        <span  th:text="${eqClassRoom[0][0]}"></span>/
+                        <span  th:if="${eqClassRoom[0][1]!=null}" th:text="${eqClassRoom[0][1]}*100+'%'" ></span>
+                        <span  th:if="${eqClassRoom[0][1]==null}">0%</span>
+                    </h3>
+
+                    <p>使用数/使用率</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-clipboard" style="font-size: 80px;"></i>
+                </div>
+                <a  class="small-box-footer">查看更多 <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <div  name="lookMore" class="col-lg-3 col-xs-6" style="cursor: pointer">
+            <div class="small-box bg-red">
+                <div class="inner">
+                    <h3>
+                        <span th:text="${equimentAccrssery[0][0]}"></span>/
+                        <span th:if="${equimentAccrssery[0][1]!=null}"  th:text="${equimentAccrssery[0][1]}*100+'%'"></span>
+                        <span th:if="${equimentAccrssery[0][1]==null}"  >0%</span>
+                    </h3>
+
+                    <p>设备完好数/完好率</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-pie-graph" style="font-size: 80px;"></i>
+                </div>
+                <a   class="small-box-footer ">查看更多 <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+    </div>
+    <!--这是资产统计结束-->
+
+    <!-- 这是资金投入开始 -->
+    <div class="row">
+        <section class="col-lg-7 connectedSortable">
+            <div class="nav-tabs-custom">
+                <ul class="nav nav-tabs pull-right">
+                    <li class="active">
+                        <a href="#revenue-chart" data-toggle="tab">投入情况</a>
+                    </li>
+                    <li class="pull-left header">
+                        <div class="the_money"></div>
+                        资金投入状况
+                    </li>
+                </ul>
+                <div class="tab-content no-padding">
+                    <div class="chart tab-pane active" id="revenue-chart"
+                         style="position: relative; height: 305px;"></div>
+                </div>
+            </div>
+            <!-- 这是资金投入结束 -->
+
+            <!-- 这是数据分析开始-->
+            <div class="box">
+                <div class="environmental">数据分析</div>
+                <div class="nav-tabs-custom" style="box-shadow: none;">
+                    <ul class="nav nav-tabs pull-right">
+                        <li class="active">
+                            <a href="#school" data-toggle="tab">学校</a>
+                        </li>
+                        <li>
+                            <a href="#subject" id="subjectAll" data-toggle="tab">学科</a>
+                        </li>
+                        <li>
+                            <a href="#teacher" id="teacherAll" data-toggle="tab">老师</a>
+                        </li>
+                    </ul>
+                </div>
+                <button type="button" class="pull-right btn btn-default see_more" style="margin-top:-10px;margin-right: 13px;margin-bottom: 10px;">更多
+                    <i class="fa fa-arrow-circle-right"></i></button>
+                <!-- /.box-header -->
+                <div class="tab-content no-padding">
+                    <div class="chart tab-pane active" id="school">
+                        <div class="box-body">
+                            <table id="example1" class="table table-bordered table-striped">
+                                <thead>
+                                <tr>
+                                    <th>学校名称</th>
+                                    <th>使用率</th>
+                                    <th>排名</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <th>学校名称</th>
+                                    <th>使用率</th>
+                                    <th>排名</th>
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="chart tab-pane " id="subject">
+                        <div class="box-body">
+                            <table id="example2" class="table table-bordered table-striped" style="width: 100%;">
+                                <thead>
+                                <tr>
+                                    <th>学科</th>
+                                    <th>使用课时数</th>
+                                    <th>排名</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <th>学科</th>
+                                    <th>使用课时数</th>
+                                    <th>排名</th>
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="chart tab-pane " id="teacher">
+                        <div class="box-body">
+                            <table id="example3" class="table table-bordered table-striped" style="width: 100%;">
+                                <thead>
+                                <tr>
+                                    <th>学校名称</th>
+                                    <th>教师名称</th>
+                                    <th>使用率</th>
+                                    <th>排名</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <th>学校名称</th>
+                                    <th>教师名称</th>
+                                    <th>使用率</th>
+                                    <th>排名</th>
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- /.box-body -->
+            </div>
+
+            <!--这是数据分析结束-->
+
+        </section>
+        <section class="col-lg-5 connectedSortable">
+
+            <!--这是环境监测开始-->
+            <div class="box box-solid">
+                <div class="environmental">环境监测</div>
+                <div class="nav-tabs-custom" style="box-shadow: none;">
+                    <ul class="nav nav-tabs pull-right" id="environmentUl">
+                        <li th:each="en,iterStat : ${top3School}"   th:class="${iterStat.index==0?'active':''}" th:attr="schoolCode=${en[6]}">
+                            <a  th:href="'#envir'+${iterStat.index}" data-toggle="tab" th:text="${en[0]}">沙坪坝</a>
+                        </li>
+
+                    </ul>
+                </div>
+                <button type="button" class="pull-right btn btn-default see_more" id="lookMoreEnvir" style="margin-top:-10px;margin-right: 13px;margin-bottom: 10px;">更多
+                    <i class="fa fa-arrow-circle-right"></i></button>
+                <div class="tab-content no-padding">
+                    <div   th:each="envir,iterStat : ${top3School}" th:id="'envir'+${iterStat.index}"  th:class="${iterStat.index==0?'chart tab-pane active':'chart tab-pane'}">
+                        <div class="science_warp">
+                            <div class="col-md-12">
+                                <div class="progress-group">
+                                    <span class="progress-text">温度</span>
+                                    <span class="progress-number" th:text="${envir[1]==null?'未检测':envir[1]}+'/50°C'"></span>
+                                    <div class="progress sm">
+                                        <div class="progress-bar progress-bar-red" th:style="'width:'+${envir[1]==null?0:envir[1]}/50*100+'%'" ></div>
+                                    </div>
+                                </div>
+                                <div class="progress-group">
+                                    <span class="progress-text">湿度</span>
+                                    <span class="progress-number" th:text="${envir[2]==null?'未检测':envir[2]}+'/90RH'"></span>
+
+                                    <div class="progress sm">
+                                        <div class="progress-bar progress-bar-aqua" th:style="'width:'+${envir[2]==null?0:envir[2]}/90*100+'%'" ></div>
+                                    </div>
+                                </div>
+                                <!-- /.progress-group -->
+                                <div class="progress-group">
+                                    <span class="progress-text">照度</span>
+                                    <span class="progress-number" th:text="${envir[3]==null?'未检测':envir[3]}+'/65535lx'"></span>
+
+                                    <div class="progress sm">
+                                        <div class="progress-bar progress-bar-blue" th:style="'width:'+${envir[3]==null?0:envir[3]}/65535*100+'%'"></div>
+                                    </div>
+                                </div>
+                                <!-- /.progress-group -->
+                                <div class="progress-group">
+                                    <span class="progress-text">噪音</span>
+                                    <span class="progress-number" th:text="${envir[4]==null?'未检测':envir[4]}+'/150db'"></span>
+
+                                    <div class="progress sm">
+                                        <div class="progress-bar progress-bar-green" th:style="'width:'+${envir[4]==null?0:envir[4]}/150*100+'%'"></div>
+                                    </div>
+                                </div>
+                                <!-- /.progress-group -->
+                                <div class="progress-group">
+                                    <span class="progress-text">PM2.5</span>
+                                    <span class="progress-number" th:text="${envir[5]==null?'未检测':envir[5]}+'/300μg/m3'"></span>
+
+                                    <div class="progress sm">
+                                        <div class="progress-bar progress-bar-yellow" th:style="'width:'+${envir[5]==null?0:envir[5]}/300*100+'%'"></div>
+                                    </div>
+                                </div>
+                                <!-- /.progress-group -->
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            <!--这是环境监测结束-->
+
+            <!-- 这是运维管理开始 -->
+            <div class="box">
+                <div class="environmental">运维汇总</div>
+                <div class="row">
+                    <button type="button" class="pull-right btn btn-default see_more"
+                            style="margin-top:30px;margin-right: 25px;">更多
+                        <i class="fa fa-arrow-circle-right"></i></button>
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="chart-responsive">
+                                    <canvas id="pieChart"></canvas>
+                                </div>
+                                <!-- ./chart-responsive -->
+                            </div>
+                            <!-- /.col -->
+                            <div class="col-md-4">
+                                <ul class="chart-legend clearfix">
+                                    <li><i class="fa fa-circle-o text-red"></i><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> 铬</font></font></li>
+                                    <li><i class="fa fa-circle-o text-green"></i><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> IE</font></font></li>
+                                    <li><i class="fa fa-circle-o text-yellow"></i><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> 火狐</font></font></li>
+                                    <li><i class="fa fa-circle-o text-aqua"></i><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> 苹果浏览器</font></font></li>
+                                </ul>
+                            </div>
+                            <!-- /.col -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 这是运维管理结束 -->
+
+        </section>
+        <!-- right col -->
+    </div>
+    <!-- /.row (main row) -->
+
+</section>
+</body>
+
+
+<script>
+
+
+    //图形
+    $(function () {
+
+        loadEquipmentSchoolT();
+
+        loadOpertion();
+
+    })
+
+    function loadEquipmentSchoolT() {
+        var years = [];
+        var moneys = [];
+        var moneyperent = [];
+        var list = {};
+        var data = [];
+        $.ajax({
+            url: '/bbt/equipment/loadEquipmentSchoolT',
+            dataType: 'json',
+            async: false,
+            type: 'post',
+            success: function (list) {
+                $.each(list, function (index, item) {
+                    var arr = {
+                        y: item[0],
+                        item1: item[1],
+                        item2:item[2]
+                    };
+                    data.push(arr);
+                });
+            }
+        });
+
+        //  这是投入情况折线图
+        var area = new Morris.Area({
+            element: 'revenue-chart',
+            resize: true,
+            data: data,
+            xkey: 'y',
+            ykeys: ['item1', 'item2'],
+            labels: ['资金', '投资占比率（%）'],
+            lineColors: ['#a0d0e0', '#3c8dbc'],
+            hideHover: 'auto'
+        });
+    }
+
+
+
+    function loadOpertion() {
+
+        var aaa;
+        var bbb;
+        //使用率
+        $.ajax({
+            url: '/bbt/equipment/loadOpertions',
+            dataType: 'json',
+            async: false,
+            type: 'post',
+            success: function (list) {
+                console.log(list);
+                aaa = list[0][0];
+                bbb = list[0][1];
+            }
+        });
+
+
+        //- 这是运维管理饼状图 -
+        var pieChartCanvas = $('#pieChart').get(0).getContext('2d')
+        var pieChart = new Chart(pieChartCanvas)
+        var PieData = [{
+            value: aaa,
+            color: '#f56954',
+            highlight: 'red',
+            label: '运维单总数'
+        },
+            {
+                value: bbb,
+                color: '#00a65a',
+                highlight: 'green',
+                label: '结单数'
+            }
+        ]
+        var pieOptions = {
+            //Boolean - Whether we should show a stroke on each segment
+            segmentShowStroke: true,
+            //String - The colour of each segment stroke
+            segmentStrokeColor: '#fff',
+            //Number - The width of each segment stroke
+            segmentStrokeWidth: 2,
+            //Number - The percentage of the chart that we cut out of the middle
+            percentageInnerCutout: 50, // This is 0 for Pie charts
+            //Number - Amount of animation steps
+            animationSteps: 100,
+            //String - Animation easing effect
+            animationEasing: 'easeOutBounce',
+            //Boolean - Whether we animate the rotation of the Doughnut
+            animateRotate: true,
+            //Boolean - Whether we animate scaling the Doughnut from the centre
+            animateScale: false,
+            //Boolean - whether to make the chart responsive to window resizing
+            responsive: true,
+            // Boolean - whether to maintain the starting aspect ratio or not when responsive, if set to false, will take up entire container
+            maintainAspectRatio: true,
+            //String - A legend template
+        }
+        //Create pie or douhnut chart
+        // You can switch between pie and douhnut using the method below.
+        pieChart.Doughnut(PieData, pieOptions)
+    }
+
+
+    var pieChartCanvas = $('#pieChart2').get(0).getContext('2d')
+    var pieChart2 = new Chart(pieChartCanvas)
+    var PieData2 = [
+
+        {
+            value: 100,
+            color: '#00a65a',
+            highlight: 'green',
+            label: '处理率'
+        }
+    ]
+    var pieOptions2 = {
+        //Boolean - Whether we should show a stroke on each segment
+        segmentShowStroke: true,
+        //String - The colour of each segment stroke
+        segmentStrokeColor: '#fff',
+        //Number - The width of each segment stroke
+        segmentStrokeWidth: 2,
+        //Number - The percentage of the chart that we cut out of the middle
+        percentageInnerCutout: 50, // This is 0 for Pie charts
+        //Number - Amount of animation steps
+        animationSteps: 100,
+        //String - Animation easing effect
+        animationEasing: 'easeOutBounce',
+        //Boolean - Whether we animate the rotation of the Doughnut
+        animateRotate: true,
+        //Boolean - Whether we animate scaling the Doughnut from the centre
+        animateScale: false,
+        //Boolean - whether to make the chart responsive to window resizing
+        responsive: true,
+        // Boolean - whether to maintain the starting aspect ratio or not when responsive, if set to false, will take up entire container
+        maintainAspectRatio: true,
+        //String - A legend template
+
+    }
+    //Create pie or douhnut chart
+    // You can switch between pie and douhnut using the method below.
+    pieChart2.Doughnut(PieData2, pieOptions2)
+
+</script>
+<script>
+    $(function () {
+        //学校首页
+        loadEquipmentSchool();
+        //学科首页
+        loadEquipmentSubject();
+        //教师首页
+        loadEquipmentTeacher();
+
+        //查看更多
+        lookMore();
+
+    });
+
+
+    //学校首页
+    function loadEquipmentSchool() {
+        $('#example1').DataTable({
+            'paging': true,
+            'lengthChange': true,
+            'searching': true,
+            'ordering': true,
+            'info': true,
+            'autoWidth': true,
+            "ajax": {'url': '/bbt/equipment/loadEquipmentSchool'},
+            "columnDefs": [{
+                "targets": 2,
+                "data": null,
+                "searchable": false,
+                "render": function (data, type, row, meta) {
+                    return meta.row + 1;
+                }
+            }],
+            "language": { // 定义语言
+                "sProcessing": "加载中...",
+                "sLengthMenu": "每页显示 _MENU_ 条记录",
+                "sZeroRecords": "没有匹配的结果",
+                "sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+                "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
+                "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+                "sInfoPostFix": "",
+                "sSearch": "搜索:",
+                "sUrl": "",
+                "sEmptyTable": "表中数据为空",
+                "sLoadingRecords": "载入中...",
+                "sInfoThousands": ",",
+                "oPaginate": {
+                    "sFirst": "首页",
+                    "sPrevious": "上一页",
+                    "sNext": "下一页",
+                    "sLast": "末页"
+                },
+            }
+        })
+    }
+
+    //学科首页
+    function loadEquipmentSubject() {
+        $('#example2').DataTable({
+            'paging': true,
+            'lengthChange': true,
+            'searching': true,
+            'ordering': true,
+            'info': true,
+            'autoWidth': true,
+            "ajax": {'url': '/bbt/equipment/loadEquipmentSubject'},
+            "columnDefs": [{
+                "targets": 2,
+                "data": null,
+                "searchable": false,
+                "render": function (data, type, row, meta) {
+                    return meta.row + 1;
+                }
+            }],
+            "language": { // 定义语言
+                "sProcessing": "加载中...",
+                "sLengthMenu": "每页显示 _MENU_ 条记录",
+                "sZeroRecords": "没有匹配的结果",
+                "sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+                "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
+                "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+                "sInfoPostFix": "",
+                "sSearch": "搜索:",
+                "sUrl": "",
+                "sEmptyTable": "表中数据为空",
+                "sLoadingRecords": "载入中...",
+                "sInfoThousands": ",",
+                "oPaginate": {
+                    "sFirst": "首页",
+                    "sPrevious": "上一页",
+                    "sNext": "下一页",
+                    "sLast": "末页"
+                },
+            }
+        })
+    }
+    //教师首页
+    function loadEquipmentTeacher() {
+        $('#example3').DataTable({
+            'paging': true,
+            'lengthChange': true,
+            'searching': true,
+            'ordering': true,
+            'info': true,
+            'autoWidth': true,
+            "ajax": {'url': '/bbt/equipment/loadEquipmentTeacher'},
+            "columnDefs": [{
+                "targets": 3,
+                "data": null,
+                "searchable": false,
+                "render": function (data, type, row, meta) {
+                    return meta.row + 1;
+                }
+            }],
+            "language": { // 定义语言
+                "sProcessing": "加载中...",
+                "sLengthMenu": "每页显示 _MENU_ 条记录",
+                "sZeroRecords": "没有匹配的结果",
+                "sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+                "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
+                "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+                "sInfoPostFix": "",
+                "sSearch": "搜索:",
+                "sUrl": "",
+                "sEmptyTable": "表中数据为空",
+                "sLoadingRecords": "载入中...",
+                "sInfoThousands": ",",
+                "oPaginate": {
+                    "sFirst": "首页",
+                    "sPrevious": "上一页",
+                    "sNext": "下一页",
+                    "sLast": "末页"
+                },
+            }
+        })
+    }
+
+
+    //查看更多
+    function lookMore() {
+        $(document).off('click','div[name="lookMore"]').on('click','div[name="lookMore"]',function () {
+
+            $('.addTab[data-type="equipmentCount"]').trigger('click');
+
+        });
+
+        $(document).off('click','div[name="lookMoreDataTime"]').on('click','div[name="lookMoreDataTime"]',function () {
+
+            $('.addTab[data-type="timeData"]').trigger('click');
+
+        });
+
+
+        $(document).off('click','#lookMoreEnvir').on('click','#lookMoreEnvir',function () {
+
+            var schoolCode = $('#environmentUl li.active').attr('schoolCode');
+            $.post('/bbt/data/toEnvironment',{schoolCode:schoolCode},function (result) {
+                $('.content-wrapper').empty();
+                $('.content-wrapper').html(result);
+            });
+
+        });
+
+    }
+
+
+
+</script>
+</html>

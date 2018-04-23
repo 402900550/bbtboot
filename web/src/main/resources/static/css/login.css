@@ -1,0 +1,6 @@
+.the_logo{
+	width: 42px;
+	height: 42px;
+	background: url(../img/logo.png) no-repeat;
+	float: left;
+}

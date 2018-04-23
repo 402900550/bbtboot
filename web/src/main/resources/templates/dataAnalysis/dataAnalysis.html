@@ -1,0 +1,753 @@
+
+<section class="content-header">
+	<!--这是页面定位开始-->
+	<ol class="breadcrumb">
+		<li>
+			<a href="#"><i class="fa fa-home"></i> 数据分析</a>
+		</li>
+		<li class="active">应用统计</li>
+	</ol>
+	<!--这是页面定位结束-->
+</section>
+
+<section class="content">
+
+	<!-- 这是资金投入开始 -->
+	<div class="row">
+		<section class="col-lg-7 connectedSortable">
+			<div class="nav-tabs-custom">
+				<ul class="nav nav-tabs pull-right">
+					<li class="active">
+						<a href="#revenue-chart" data-toggle="tab">投入情况</a>
+					</li>
+					<li class="pull-left header">
+						<div class="the_money"></div>
+						资金投入状况
+					</li>
+				</ul>
+				<div class="tab-content no-padding">
+					<div class="chart tab-pane active" id="revenue-chart" style="position: relative; height: 300px;"></div>
+				</div>
+			</div>
+			<!-- 这是资金投入结束 -->
+
+			<!-- 这是数据分析开始-->
+			<div class="box">
+				<div class="environmental">沙坪坝区—数据统计</div>
+				<div class="nav-tabs-custom" style="box-shadow: none;">
+					<ul class="nav nav-tabs pull-right">
+						<li class="active">
+							<a href="#school" data-toggle="tab">学校</a>
+						</li>
+						<li>
+							<a href="#subject" id="subjectAll" data-toggle="tab">学科</a>
+						</li>
+						<li>
+							<a href="#class" id="classAll" data-toggle="tab">班级</a>
+						</li>
+						<li>
+							<a href="#teacher" id="teacherAll" data-toggle="tab">老师</a>
+						</li>
+					</ul>
+				</div>
+				<button type="button" class="pull-right btn btn-default see_more" style="margin-top:-10px;margin-right: 13px;margin-bottom: 10px;">更多
+					<i class="fa fa-arrow-circle-right"></i></button>
+				<!-- /.box-header -->
+				<div class="tab-content no-padding">
+					<div class="chart tab-pane active" id="school">
+						<div class="box-body">
+							<table id="example1" class="table table-bordered table-striped">
+								<thead>
+								<tr>
+									<th>学校名称</th>
+									<th>使用率</th>
+									<th>排名</th>
+								</tr>
+								</thead>
+								<tbody>
+								</tbody>
+
+							</table>
+						</div>
+					</div>
+					<div class="chart tab-pane " id="subject">
+						<div class="box-body">
+							<table id="example2" class="table table-bordered table-striped" style="width: 100%;">
+								<thead>
+								<tr>
+									<th>学科</th>
+									<th>使用课时数</th>
+									<th>排名</th>
+								</tr>
+								</thead>
+								<tbody>
+								</tbody>
+
+							</table>
+						</div>
+					</div>
+					<div class="chart tab-pane " id="class">
+						<div class="box-body">
+							<table id="example3" class="table table-bordered table-striped" style="width: 100%;">
+								<thead>
+								<tr>
+									<th>学校</th>
+									<th>班级</th>
+									<th>使用率</th>
+									<th>排名</th>
+								</tr>
+								</thead>
+								<tbody>
+								</tbody>
+
+							</table>
+						</div>
+					</div>
+					<div class="chart tab-pane " id="teacher">
+						<div class="box-body">
+							<table id="example4" class="table table-bordered table-striped" style="width: 100%;">
+								<thead>
+								<tr>
+									<th>学校名称</th>
+									<th>教师名称</th>
+									<th>使用率</th>
+									<th>排名</th>
+								</tr>
+								</thead>
+								<tbody>
+								</tbody>
+
+							</table>
+						</div>
+					</div>
+				</div>
+
+				<!-- /.box-body -->
+			</div>
+			<!--这是数据分析结束-->
+
+		</section>
+		<section class="col-lg-5 connectedSortable">
+
+			<!--这是设备情况开始-->
+			<div class="box">
+				<div class="row" style="height: 218px;">
+
+					<div class="col-md-8">
+						<div class="environmental">沙坪坝设备情况：</div>
+						<div class="chart-responsive" style="margin-top:36px;">
+							<canvas id="pieChart2" height="110" style="width: 110px;"></canvas>
+						</div>
+					</div>
+					<div class="col-md-4" style="margin-top: 90px;">
+						<ul class="chart-legend clearfix">
+							<li><i class="fa fa-circle-o text-red"></i> 损坏数</li>
+							<li><i class="fa fa-circle-o text-green"></i> 完好数</li>
+						</ul>
+					</div>
+				</div>
+				<div class="box-footer no-padding">
+					<ul class="nav nav-pills nav-stacked">
+						<li>
+							<a href="#">
+								<font style="vertical-align: inherit;">
+									<font style="vertical-align: inherit;">总数</font>
+									<span class="text-yellow" style="margin-left:40%;" id="eqAll"></span>
+								</font>
+								<span class="pull-right text-yellow"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">100％</font></font></span>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<font style="vertical-align: inherit;">
+									<font style="vertical-align: inherit;">损坏 </font>
+									<span class="text-red" style="margin-left:40%;" id="eqDamage"></span>
+								</font>
+								<span class="pull-right text-red" id="spoilage">
+									<font style="vertical-align: inherit;">
+										<font style="vertical-align: inherit;"></font>
+									</font>
+								</span>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<font style="vertical-align: inherit;">
+									<font style="vertical-align: inherit;">完好</font>
+									<span class="text-green" style="margin-left:40%;" id="intact"></span>
+								</font>
+								<span class="pull-right text-green" id="goodReta">
+									<font style="vertical-align: inherit;">
+										<font style="vertical-align: inherit;"></font>
+									</font>
+								</span>
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<!--这是设备情况结束-->
+
+			<!-- 这是设备处理情况开始 -->
+			<div class="box">
+				<div class="row" style="height: 218px;">
+
+					<div class="col-md-8">
+						<div class="environmental">沙坪坝设备处理情况：</div>
+						<div class="chart-responsive" style="margin-top:36px;">
+							<canvas id="pieChart" height="110" style="width: 110px;"></canvas>
+						</div>
+					</div>
+					<div class="col-md-4" style="margin-top: 90px;">
+						<ul class="chart-legend clearfix">
+							<li><i class="fa fa-circle-o text-red"></i> 未处理</li>
+							<li><i class="fa fa-circle-o text-green"></i> 已处理</li>
+						</ul>
+					</div>
+				</div>
+				<div class="box-footer no-padding">
+					<ul class="nav nav-pills nav-stacked">
+						<li>
+							<a href="#">
+								<font style="vertical-align: inherit;">
+									<font style="vertical-align: inherit;">总数
+									</font>
+									<span class="text-yellow" style="margin-left:40%;" id="opAll"></span>
+								</font><span class="pull-right text-yellow"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> 100％</font></font></span></a>
+						</li>
+						<li>
+							<a href="#">
+								<font style="vertical-align: inherit;">
+									<font style="vertical-align: inherit;">损坏 </font>
+									<span class="text-red" style="margin-left:40%;" id="opDamage"></span>
+								</font>
+								<span class="pull-right text-red" id="opSpoilage"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"></font></font></span></a>
+						</li>
+						<li>
+							<a href="#">
+								<font style="vertical-align: inherit;">
+									<font style="vertical-align: inherit;">完好
+									</font>
+									<span class="text-green" style="margin-left:40%;" id="opIntact"></span>
+								</font>
+								<span class="pull-right text-green" id="opGoodReta"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> 0％</font></font></span></a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<!-- 这是设备处理情况结束 -->
+
+			<!--这是使用率开始-->
+			<div class="box">
+				<div class="row" style="height: 218px;">
+
+					<div class="col-md-8">
+						<div class="environmental">沙坪坝设备使用情况：</div>
+						<div class="chart-responsive" style="margin-top:36px;">
+							<canvas id="pieChart3" height="110" style="width: 110px;"></canvas>
+						</div>
+					</div>
+					<div class="col-md-4" style="margin-top: 90px;">
+						<ul class="chart-legend clearfix">
+							<li><i class="fa fa-circle-o text-red"></i>使用中</li>
+							<li><i class="fa fa-circle-o text-green"></i>未使用</li>
+						</ul>
+					</div>
+				</div>
+				<div class="box-footer no-padding">
+					<ul class="nav nav-pills nav-stacked">
+						<li>
+							<a href="#">
+								<font style="vertical-align: inherit;">
+									<font style="vertical-align: inherit;">总数
+									</font>
+									<span class="text-yellow" style="margin-left:40%;" id="crAll"></span>
+								</font>
+								<span class="pull-right text-yellow"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">100％</font></font></span></a>
+						</li>
+						<li>
+							<a href="#">
+								<font style="vertical-align: inherit;">
+									<font style="vertical-align: inherit;">未使用</font>
+									<span class="text-red" style="margin-left:40%;" id="crDamage"></span>
+								</font>
+								<span class="pull-right text-red" id="crDamageReta"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"></font></font></span></a>
+						</li>
+						<li>
+							<a href="#">
+								<font style="vertical-align: inherit;">
+									<font style="vertical-align: inherit;">使用中</font>
+									<span class="text-green" style="margin-left:40%;" id="crIntact"></span>
+								</font>
+								<span class="pull-right text-green" id="crGoodReta"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"></font></font></span></a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<!--这是使用率结束-->
+
+		</section>
+
+	</div>
+	<!-- /.row (main row) -->
+
+</section>
+
+<script>
+
+    //图形
+    $(function () {
+
+        //折线图
+        loadTheMoney();
+
+        //区县完好率
+        loadDistinctEquipment();
+
+        //区县设备使用率
+        loadDistinctEquipmentClassRoom();
+
+        //区县运维单情况
+        loadOpertionEquipment();
+    });
+
+    function loadTheMoney() {
+        var years = [];
+        var moneys = [];
+        var moneyperent = [];
+        var list = {};
+        var data = [];
+        $.ajax({
+            url: '/bbt/equipment/loadEquipmentSchoolT',
+            dataType: 'json',
+            async: false,
+            type: 'post',
+            success: function (list) {
+                $.each(list, function (index, item) {
+                    var arr = {
+                        y: item[0],
+                        item1: item[1],
+						item2:item[2]
+                    };
+                    data.push(arr);
+                });
+            }
+        });
+
+        //  这是投入情况折线图
+        var area = new Morris.Area({
+            element: 'revenue-chart',
+            resize: true,
+            data: data,
+            xkey: 'y',
+            ykeys: ['item1', 'item2'],
+            labels: ['资金', '投资占比率（%）'],
+            lineColors: ['#a0d0e0', '#3c8dbc'],
+            hideHover: 'auto'
+        });
+    }
+
+
+    function loadOpertionEquipment() {
+        var aaa;
+        var bbb;
+        var ccc;
+        //完好率
+        $.ajax({
+            url: '/bbt/dataAnalysis/loadOpertionEquipment',
+            dataType: 'json',
+            async: false,
+            type: 'post',
+            success: function (list) {
+                aaa = list[0][1];
+                bbb = list[0][0] - list[0][1];
+                ccc = list[0][2];
+                $("#opAll").html(list[0][0]);
+                $("#opDamage").html(bbb);
+                $("#opSpoilage").html((1 - ccc) * 100 + '%');
+                $("#opIntact").html(aaa);
+                $("#opGoodReta").html(ccc * 100 + '%');
+            }
+        });
+        //- 这是设备处理情况饼状图 -
+        var pieChartCanvas = $('#pieChart').get(0).getContext('2d')
+        var pieChart = new Chart(pieChartCanvas)
+        var PieData = [{
+            value: bbb,
+            color: '#f56954',
+            highlight: 'red',
+            label: '未处理'
+        },
+            {
+                value: aaa,
+                color: '#00a65a',
+                highlight: 'green',
+                label: '已处理'
+            }
+        ]
+        var pieOptions = {
+            //Boolean - Whether we should show a stroke on each segment
+            segmentShowStroke: true,
+            //String - The colour of each segment stroke
+            segmentStrokeColor: '#fff',
+            //Number - The width of each segment stroke
+            segmentStrokeWidth: 2,
+            //Number - The percentage of the chart that we cut out of the middle
+            percentageInnerCutout: 50, // This is 0 for Pie charts
+            //Number - Amount of animation steps
+            animationSteps: 100,
+            //String - Animation easing effect
+            animationEasing: 'easeOutBounce',
+            //Boolean - Whether we animate the rotation of the Doughnut
+            animateRotate: true,
+            //Boolean - Whether we animate scaling the Doughnut from the centre
+            animateScale: false,
+            //Boolean - whether to make the chart responsive to window resizing
+            responsive: true,
+            // Boolean - whether to maintain the starting aspect ratio or not when responsive, if set to false, will take up entire container
+            maintainAspectRatio: true,
+            //String - A legend template
+
+        }
+        //Create pie or douhnut chart
+        // You can switch between pie and douhnut using the method below.
+        pieChart.Doughnut(PieData, pieOptions)
+    }
+
+
+
+    function loadDistinctEquipment() {
+        var aaa;
+        var bbb;
+        var ccc;
+        //完好率
+        $.ajax({
+            url: '/bbt/dataAnalysis/loadDistinctEquipmentAccesssory',
+            dataType: 'json',
+            async: false,
+            type: 'post',
+            success: function (list) {
+                aaa = list[0][0];
+                bbb = list[0][1]-list[0][0];
+                ccc = list[0][2];
+                $("#eqAll").html(list[0][1]);
+				$("#eqDamage").html(bbb);
+				$("#spoilage").html((1-ccc)*100+'%');
+				$("#intact").html(aaa);
+                $("#goodReta").html(ccc*100+'%');
+            }
+        });
+        //			这是设备情况饼状图
+        var pieChartCanvas = $('#pieChart2').get(0).getContext('2d')
+        var pieChart2 = new Chart(pieChartCanvas)
+        var PieData2 = [{
+            value: bbb,
+            color: '#f56954',
+            highlight: 'red',
+            label: '损坏数'
+        }, {
+            value: aaa,
+            color: '#00a65a',
+            highlight: 'green',
+            label: '完好数'
+        }
+        ]
+        var pieOptions2 = {
+            //Boolean - Whether we should show a stroke on each segment
+            segmentShowStroke: true,
+            //String - The colour of each segment stroke
+            segmentStrokeColor: '#fff',
+            //Number - The width of each segment stroke
+            segmentStrokeWidth: 2,
+            //Number - The percentage of the chart that we cut out of the middle
+            percentageInnerCutout: 50, // This is 0 for Pie charts
+            //Number - Amount of animation steps
+            animationSteps: 100,
+            //String - Animation easing effect
+            animationEasing: 'easeOutBounce',
+            //Boolean - Whether we animate the rotation of the Doughnut
+            animateRotate: true,
+            //Boolean - Whether we animate scaling the Doughnut from the centre
+            animateScale: false,
+            //Boolean - whether to make the chart responsive to window resizing
+            responsive: true,
+            // Boolean - whether to maintain the starting aspect ratio or not when responsive, if set to false, will take up entire container
+            maintainAspectRatio: true,
+            //String - A legend template
+
+        }
+        //Create pie or douhnut chart
+        // You can switch between pie and douhnut using the method below.
+        pieChart2.Doughnut(PieData2, pieOptions2)
+    }
+
+    //设备使用情况饼状图
+    function loadDistinctEquipmentClassRoom() {
+        var aaa;
+        var bbb;
+        var ccc;
+        //使用率
+        $.ajax({
+            url: '/bbt/dataAnalysis/loadDistinctEquipmentClassRoom',
+            dataType: 'json',
+            async: false,
+            type: 'post',
+            success: function (list) {
+                aaa = list[0][0]-list[0][1];
+                bbb = list[0][1];
+                ccc = list[0][2];
+                $("#crAll").html(list[0][0]);
+                $("#crDamage").html(bbb);
+                $("#crDamageReta").html((1-ccc)*100+'%');
+                $("#crIntact").html(aaa);
+                $("#crGoodReta").html(ccc*100+'%');
+            }
+        });
+
+
+        var pieChartCanvas = $('#pieChart3').get(0).getContext('2d')
+        var pieChart3 = new Chart(pieChartCanvas)
+        var PieData3 = [{
+            value: bbb,
+            color: '#f56954',
+            highlight: 'red',
+            label: '未使用'
+        },
+
+            {
+                value: aaa,
+                color: '#00a65a',
+                highlight: 'green',
+                label: '使用中'
+            }
+        ]
+        var pieOptions3 = {
+            //Boolean - Whether we should show a stroke on each segment
+            segmentShowStroke: true,
+            //String - The colour of each segment stroke
+            segmentStrokeColor: '#fff',
+            //Number - The width of each segment stroke
+            segmentStrokeWidth: 2,
+            //Number - The percentage of the chart that we cut out of the middle
+            percentageInnerCutout: 50, // This is 0 for Pie charts
+            //Number - Amount of animation steps
+            animationSteps: 100,
+            //String - Animation easing effect
+            animationEasing: 'easeOutBounce',
+            //Boolean - Whether we animate the rotation of the Doughnut
+            animateRotate: true,
+            //Boolean - Whether we animate scaling the Doughnut from the centre
+            animateScale: false,
+            //Boolean - whether to make the chart responsive to window resizing
+            responsive: true,
+            // Boolean - whether to maintain the starting aspect ratio or not when responsive, if set to false, will take up entire container
+            maintainAspectRatio: true,
+            //String - A legend template
+
+        }
+        //Create pie or douhnut chart
+        // You can switch between pie and douhnut using the method below.
+        pieChart3.Doughnut(PieData3, pieOptions3)
+    }
+    $(function () {
+        //学校学校
+        loadSchool();
+        //学校学科
+        loadSchoolSubject();
+        //学校教师
+        loadSchoolTeacher();
+        //学校班级
+        loadSchoolClass();
+
+        //查看更多
+        lookMore();
+
+    });
+
+
+    //学校
+    function loadSchool() {
+        $('#example1').DataTable({
+            'paging': true,
+            'lengthChange': true,
+            'searching': true,
+            'ordering': true,
+            'info': true,
+            'autoWidth': true,
+            "ajax":'/bbt/dataAnalysis/loadSchool',
+            "columnDefs": [{
+                "targets": 2,
+                "data": null,
+                "searchable": false,
+                "render": function (data, type, row, meta) {
+                    return meta.row + 1;
+                }
+            }],
+            "language": { // 定义语言
+                "sProcessing": "加载中...",
+                "sLengthMenu": "每页显示 _MENU_ 条记录",
+                "sZeroRecords": "没有匹配的结果",
+                "sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+                "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
+                "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+                "sInfoPostFix": "",
+                "sSearch": "搜索:",
+                "sUrl": "",
+                "sEmptyTable": "表中数据为空",
+                "sLoadingRecords": "载入中...",
+                "sInfoThousands": ",",
+                "oPaginate": {
+                    "sFirst": "首页",
+                    "sPrevious": "上一页",
+                    "sNext": "下一页",
+                    "sLast": "末页"
+                },
+            }
+        })
+    }
+
+    //学校学科
+    function loadSchoolSubject() {
+        $('#example2').DataTable({
+            'paging': true,
+            'lengthChange': true,
+            'searching': true,
+            'ordering': true,
+            'info': true,
+            'autoWidth': true,
+            "ajax":'/bbt/dataAnalysis/loadSchoolSubject',
+            "columnDefs": [{
+                "targets": 2,
+                "data": null,
+                "searchable": false,
+                "render": function (data, type, row, meta) {
+                    return meta.row + 1;
+                }
+            }],
+            "language": { // 定义语言
+                "sProcessing": "加载中...",
+                "sLengthMenu": "每页显示 _MENU_ 条记录",
+                "sZeroRecords": "没有匹配的结果",
+                "sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+                "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
+                "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+                "sInfoPostFix": "",
+                "sSearch": "搜索:",
+                "sUrl": "",
+                "sEmptyTable": "表中数据为空",
+                "sLoadingRecords": "载入中...",
+                "sInfoThousands": ",",
+                "oPaginate": {
+                    "sFirst": "首页",
+                    "sPrevious": "上一页",
+                    "sNext": "下一页",
+                    "sLast": "末页"
+                },
+            }
+        })
+    }
+    //学校教师
+    function loadSchoolTeacher() {
+        $('#example4').DataTable({
+            'paging': true,
+            'lengthChange': true,
+            'searching': true,
+            'ordering': true,
+            'info': true,
+            'autoWidth': true,
+            "ajax":'/bbt/dataAnalysis/loadSchoolTeacher',
+            "columnDefs": [{
+                "targets": 3,
+                "data": null,
+                "searchable": false,
+                "render": function (data, type, row, meta) {
+                    return meta.row + 1;
+                }
+            }],
+            "language": { // 定义语言
+                "sProcessing": "加载中...",
+                "sLengthMenu": "每页显示 _MENU_ 条记录",
+                "sZeroRecords": "没有匹配的结果",
+                "sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+                "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
+                "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+                "sInfoPostFix": "",
+                "sSearch": "搜索:",
+                "sUrl": "",
+                "sEmptyTable": "表中数据为空",
+                "sLoadingRecords": "载入中...",
+                "sInfoThousands": ",",
+                "oPaginate": {
+                    "sFirst": "首页",
+                    "sPrevious": "上一页",
+                    "sNext": "下一页",
+                    "sLast": "末页"
+                },
+            }
+        })
+    }
+
+    //学校班级
+    function loadSchoolClass() {
+        $('#example3').DataTable({
+            'paging': true,
+            'lengthChange': true,
+            'searching': true,
+            'ordering': true,
+            'info': true,
+            'autoWidth': true,
+            "ajax":'/bbt/dataAnalysis/loadSchoolClass',
+            "columnDefs": [{
+                "targets": 3,
+                "data": null,
+                "searchable": false,
+                "render": function (data, type, row, meta) {
+                    return meta.row + 1;
+                }
+            }],
+            "language": { // 定义语言
+                "sProcessing": "加载中...",
+                "sLengthMenu": "每页显示 _MENU_ 条记录",
+                "sZeroRecords": "没有匹配的结果",
+                "sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+                "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
+                "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+                "sInfoPostFix": "",
+                "sSearch": "搜索:",
+                "sUrl": "",
+                "sEmptyTable": "表中数据为空",
+                "sLoadingRecords": "载入中...",
+                "sInfoThousands": ",",
+                "oPaginate": {
+                    "sFirst": "首页",
+                    "sPrevious": "上一页",
+                    "sNext": "下一页",
+                    "sLast": "末页"
+                },
+            }
+        })
+    }
+
+
+    //查看更多
+    function lookMore() {
+        $(document).off('click','a[name="lookMore"]').on('click','a[name="lookMore"]',function () {
+
+            $('.addTab[data-type="equipmentCount"]').trigger('click');
+
+        });
+
+
+
+        $(document).off('click','#lookMoreEnvir').on('click','#lookMoreEnvir',function () {
+
+            var schoolCode = $('#environmentUl li.active').attr('schoolCode');
+            $.post('/bbt/data/toEnvironment',{schoolCode:schoolCode},function (result) {
+                $('.content-wrapper').empty();
+                $('.content-wrapper').html(result);
+            });
+
+        });
+
+    }
+</script>

@@ -1,0 +1,475 @@
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" th:href="@{/css/width.css}"/>
+
+
+<section class="content-header">
+    <h1><span>沙坪坝区</span>—用户管理</h1>
+    <!--这是页面定位开始-->
+    <ol class="breadcrumb">
+        <li>
+            <a href="#"><i class="fa fa-home"></i> 系统设置</a>
+        </li>
+        <li class="active">学校管理</li>
+    </ol>
+    <!--这是页面定位结束-->
+</section>
+<button data-toggle="modal" data-target="#addUser" class="btn btn-flat the_button the_btn" style="position: absolute;margin-top: 75px;margin-left: 500px;z-index: 100;height: 30px;line-height: 15px;">
+    <i class="fa fa-plus "></i>
+    新增用户
+</button>
+<button sec:authorize="hasAuthority('HUANFANGADMIN')" data-toggle="modal" data-target="#addCompanyUser" class="btn btn-flat the_button the_btn" style="position: absolute;margin-top: 75px;margin-left: 650px;z-index: 100;height: 30px;line-height: 15px;">
+    <i class="fa fa-plus "></i>
+    新增企业用户
+</button>
+<section style="background:#f4f4f4;min-height: 918px;margin-top:10px; ">
+    <div class="the_user">用户列表</div>
+    <section class="content">
+        <div class="box-body" style="background: #ffffff !important;">
+            <table id="userTable" class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th>单位名称</th>
+                    <th>用户名</th>
+                    <th>姓名</th>
+                    <th>角色</th>
+                    <th>性别</th>
+                    <th>学科</th>
+                    <th>IC卡</th>
+                    <th>邮箱</th>
+                    <th>电话</th>
+                    <th style="width: 130px">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+    </section>
+</section>
+<!--弹框-->
+<!--新增用户-->
+<div class="modal fade" id="addUser" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    新增用户
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form" th:action="@{/user/addUser}" method="post">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">学校名称</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" name="schoolCode">
+                                <option value="">请选择学校</option>
+                                <option th:each="school : ${schools} " th:value="${school.schoolCode}"
+                                        th:text="${school.name}"></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">赋予角色</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" name="roleId">
+                                <option th:each="role : ${roles} " th:value="${role.id}"
+                                        th:text="${role.description}"></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">用户名</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="userName"
+                                   placeholder="请输入用户名"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">姓名</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="realName"
+                                   placeholder="请输入姓名"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">性别</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" name="sex">
+                                <option value="1">男</option>
+                                <option value="2">女</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">学科</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" name="subjectId">
+                                <option th:each="sub : ${subjects} " th:value="${sub.id}"
+                                        th:text="${sub.subjectName}"></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">IC卡</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="icardNo"
+                                   placeholder="请输入IC卡"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">邮箱</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="email"
+                                   placeholder="请输入邮箱"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">联系电话</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="phone"
+                                   placeholder="请输入联系电话"/>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default"
+                        data-dismiss="modal">关闭
+                </button>
+                <button type="button" class="btn btn-primary">
+                    保存
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!--新增企业用户-->
+<div class="modal fade" id="addCompanyUser" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true">×
+                </button>
+                <h4 class="modal-title" id="">
+                    新增企业用户
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form" th:action="@{/user/addUser}" method="post">
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">单位名称</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" name="companyId">
+                                <option th:if="${companys!=null}" th:each="company : ${companys} " th:value="${company.id}"
+                                        th:text="${company.name}"></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">赋予角色</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" name="roleId">
+                                <option th:each="role : ${roles} " th:value="${role.id}" th:if="${role.roleName eq 'COMPANY'}"
+                                        th:text="${role.description}"></option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">用户名</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="userName"
+                                   placeholder="请输入用户名"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">姓名</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="realName"
+                                   placeholder="请输入姓名"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">性别</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" name="sex">
+                                <option value="1">男</option>
+                                <option value="2">女</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">IC卡</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="icardNo"
+                                   placeholder="请输入IC卡"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">邮箱</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="email"
+                                   placeholder="请输入邮箱"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">联系电话</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="phone" placeholder="请输入联系电话"/>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default"
+                        data-dismiss="modal">关闭
+                </button>
+                <button type="button" class="btn btn-primary">
+                    保存
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+
+
+<!--修改用户-->
+<div class="modal fade" id="modifyUser" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true">×
+                </button>
+                <h4 class="modal-title" id="">
+                    修改用户
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form" th:action="@{/user/modifyUser}" method="post">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">姓名</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="realName"
+                                   placeholder="请输入姓名"/>
+                            <input type="hidden" name="userId"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">性别</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" name="sex">
+                                <option value="1">男</option>
+                                <option value="2">女</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">学科</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" name="subjectId">
+                                <option th:each="sub : ${subjects} " th:value="${sub.id}"
+                                        th:text="${sub.subjectName}"></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">IC卡</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="icardNo"
+                                   placeholder="请输入IC卡"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">邮箱</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="email"
+                                   placeholder="请输入邮箱"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">联系电话</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="phone"
+                                   placeholder="请输入联系电话"/>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default"
+                        data-dismiss="modal">关闭
+                </button>
+                <button type="button" class="btn btn-primary">
+                    保存
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<script>
+    $(function () {
+        var userTable = loadTable();
+        saveUser(userTable);
+        deleteUser(userTable);
+        modifyUser(userTable);
+        saveCompanyUser(userTable);
+    });
+
+    function loadTable() {
+
+        var table = $('#userTable').DataTable({
+            'paging': true,
+            'lengthChange': true,
+            'searching': true,
+            'ordering': true,
+            'info': true,
+            'autoWidth': true,
+            "ajax": '/bbt/user/loadUserList',
+            "columnDefs": [{
+                "targets": 9,
+                "data": null,
+                "searchable": false,
+                "render": function (data, type, row, meta) {
+                    return ' <button type="button" userId="' + data[9] + '" name="modifyUser" class="btn btn-sm btn-default">修改信息</button>' +
+                        ' <button type="button" userId="' + data[9] + '" name="deleteUser" class="btn btn-sm btn-danger">删除用户</button>';
+                }
+            },{
+                "targets": 4,
+                "data": function (data, type, row, meta) {
+                    var sex=data[4];
+                    if(sex==1){
+                        return "男";
+                    }else if(sex==2){
+                        return "女";
+                    }else {
+                        return "无";
+                    }
+                },
+                "searchable": false
+            }],
+            "language": { // 定义语言
+                "sProcessing": "加载中...",
+                "sLengthMenu": "每页显示 _MENU_ 条记录",
+                "sZeroRecords": "没有匹配的结果",
+                "sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+                "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
+                "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+                "sInfoPostFix": "",
+                "sSearch": "搜索:",
+                "sUrl": "",
+                "sEmptyTable": "表中数据为空",
+                "sLoadingRecords": "载入中...",
+                "sInfoThousands": ",",
+                "oPaginate": {
+                    "sFirst": "首页",
+                    "sPrevious": "上一页",
+                    "sNext": "下一页",
+                    "sLast": "末页"
+                },
+            }
+        });
+        return table;
+
+    }
+
+    // 新增用户
+    function saveUser(table) {
+        $('#addUser').find('.btn-primary').on('click', function () {
+            $('#addUser').find('form').ajaxSubmit(function (result) {
+                alert(result);
+                $('#addUser').modal('hide');
+                table.ajax.reload();
+            });
+        });
+
+        $('#addUser').on('hide.bs.modal', function () {
+            $(this).find('.form-group').removeClass('has-error');
+            $(this).find('.form-group input,select,textarea').val('');
+        })
+
+
+    }
+    //新增企业用户
+    function saveCompanyUser(table) {
+        $('#addCompanyUser').find('.btn-primary').on('click', function () {
+            $('#addCompanyUser').find('form').ajaxSubmit(function (result) {
+                alert(result);
+                $('#addCompanyUser').modal('hide');
+                table.ajax.reload();
+            });
+        });
+
+        $('#addCompanyUser').on('hide.bs.modal', function () {
+            $(this).find('.form-group').removeClass('has-error');
+            $(this).find('.form-group input,select,textarea').val('');
+        })
+    }
+
+    //修改用户
+    function modifyUser(table) {
+
+        $(document).off('click','button[name="modifyUser"]').on('click','button[name="modifyUser"]', function () {
+            var userId = $(this).attr('userId');
+            $.post('/bbt/user/findUserByUserId', {userId: userId}, function (result) {
+
+                $('#modifyUser input[name="realName"]').val(result.realName);
+                $('#modifyUser select[name="sex"]').val(result.sex);
+                $('#modifyUser input[name="phone"]').val(result.phone);
+                $('#modifyUser input[name="email"]').val(result.email);
+                $('#modifyUser input[name="icardNo"]').val(result.icardNo);
+                $('#modifyUser select[name="subjectId"]').val(result.subjectId);
+                $('#modifyUser input[name="userId"]').val(result.userId);
+                $('#modifyUser').modal('show');
+
+            });
+        });
+
+
+        $('#modifyUser').find('.btn-primary').on('click', function () {
+            $('#modifyUser').find('form').ajaxSubmit(function (result) {
+                alert(result);
+                $('#modifyUser').modal('hide');
+                table.ajax.reload();
+            });
+        });
+
+        $('#modifyUser').on('hide.bs.modal', function () {
+            $(this).find('.form-group').removeClass('has-error');
+            $(this).find('.form-group input,select,textarea').val('');
+        })
+    }
+
+
+
+    //删除用户
+    function deleteUser(table) {
+
+        $(document).off('click','button[name="deleteUser"]').on('click','button[name="deleteUser"]',function () {
+           var deleteId=$(this).attr('userId');
+           var con=confirm("缺要删除该用户吗?");
+           if (con){
+               $.post('/bbt/user/deleteUser',{deleteId:deleteId},function (result) {
+                   alert(result);
+                   table.ajax.reload();
+               });
+           }
+        });
+
+
+    }
+
+
+
+
+</script>
+</html>

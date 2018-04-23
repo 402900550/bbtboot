@@ -1,0 +1,706 @@
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" th:href="@{/css/width.css}"/>
+<style>
+    .dataTables_filter{
+        margin-left: -210px;
+    }
+    .bbttnn{
+        margin-top: 10px;
+        margin-left: 500px;
+        z-index: 100;
+        height: 30px;
+        line-height: 15px;
+        position: absolute;
+    }
+    @media screen and (max-width: 1366px){
+        .dataTables_filter{
+            margin-left:-95px;
+        }
+        .bbttnn{
+            margin-left: 425px;
+        }
+    }
+</style>
+
+<section class="content-header">
+    <h1><span>沙坪坝区</span>—参数管理</h1>
+    <!--这是页面定位开始-->
+    <ol class="breadcrumb">
+        <li>
+            <a href="#"><i class="fa fa-home"></i> 系统设置</a>
+        </li>
+        <li class="active">学校管理</li>
+    </ol>
+    <!--这是页面定位结束-->
+</section>
+
+<section style="background:#f4f4f4;min-height: 918px;margin-top:10px; ">
+    <div class="the_user" style="background: #ffffff;">参数列表</div>
+    <section class="content col-lg-6">
+        <button data-toggle="modal" data-target="#addOrModifyBrand" class="btn btn-flat the_button the_btn bbttnn"><i class="fa fa-plus "></i>
+            新增品牌
+        </button>
+        <div class="box-body" style="background: #ffffff !important;">
+            <table id="brandTable" class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>品牌</th>
+                    <th style="width: 130px">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+       <div style="margin-top:20px;">
+           <button data-toggle="modal" data-target="#addOrModifyModel" class="btn btn-flat the_button the_btn bbttnn">
+               <i class="fa fa-plus "></i>
+               新增型号
+           </button>
+           <div class="box-body" style="background: #ffffff !important;">
+               <table id="modelTable" class="table table-bordered table-striped">
+                   <thead>
+                   <tr>
+                       <th>序号</th>
+                       <th>型号</th>
+                       <th style="width: 130px">操作</th>
+                   </tr>
+                   </thead>
+                   <tbody>
+
+                   </tbody>
+               </table>
+           </div>
+       </div>
+        <div style="margin-top:20px;">
+            <button data-toggle="modal" data-target="#addOrModifyDevelopType" class="btn btn-flat the_button the_btn bbttnn">
+                <i class="fa fa-plus "></i>
+                新增配备类型
+            </button>
+            <div class="box-body" style="background: #ffffff !important;">
+                <table id="developType" class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>配备类型</th>
+                        <th style="width: 130px">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+    <section class="content col-lg-6">
+        <button data-toggle="modal" data-target="#addOrModifyCompany" class="btn btn-flat the_button the_btn bbttnn">
+            <i class="fa fa-plus "></i>
+            新增企业
+        </button>
+        <div class="box-body" style="background: #ffffff !important;">
+            <table id="companyTable" class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>企业名称</th>
+                    <th>地址</th>
+                    <th>电话</th>
+                    <th style="width: 130px">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+        <div style="margin-top:20px;">
+            <button data-toggle="modal" data-target="#addOrModifyAccessoryName" class="btn btn-flat the_button the_btn bbttnn">
+                <i class="fa fa-plus "></i>
+                新增设备名称
+            </button>
+            <div class="box-body" style="background: #ffffff !important;">
+                <table id="accessoryName" class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>设备名称</th>
+                        <th style="width: 130px">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+    <div style="clear:both;"></div>
+</section>
+
+<!--弹框-->
+<!--新增/修改品牌-->
+<div class="modal fade" id="addOrModifyBrand" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true">×
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    新增/修改品牌
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form" th:action="@{/parameter/addOrModifyBrand}" method="post">
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">品牌名称</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="brandName"
+                                   placeholder="请输入品牌名称"/>
+                            <input type="hidden" name="brandId"/>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default"
+                        data-dismiss="modal">关闭
+                </button>
+                <button type="button" class="btn btn-primary">
+                    保存
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!--新增/修改规格型号-->
+<div class="modal fade" id="addOrModifyModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true">×
+                </button>
+                <h4 class="modal-title" id="">
+                    新增/修改规格型号
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form" th:action="@{/parameter/addOrModifyModel}" method="post">
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">规格型号</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="modelName"
+                                   placeholder="请输入规格型号"/>
+                            <input type="hidden" name="modelId"/>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default"
+                        data-dismiss="modal">关闭
+                </button>
+                <button type="button" class="btn btn-primary">
+                    保存
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!--新增/修改规格型号-->
+<div class="modal fade" id="addOrModifyCompany" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true">×
+                </button>
+                <h4 class="modal-title" id="">
+                    新增/修改规格型号
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form" th:action="@{/parameter/addOrModifyCompany}" method="post">
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">企业名称</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="companyName"
+                                   placeholder="请输入规格型号"/>
+                            <input type="hidden" name="companyId"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">电话</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="phone"
+                                   placeholder="请输入电话"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">地址</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="address"
+                                   placeholder="请输入地址"/>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default"
+                        data-dismiss="modal">关闭
+                </button>
+                <button type="button" class="btn btn-primary">
+                    保存
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<!--新增/修改设备名称-->
+<div class="modal fade" id="addOrModifyAccessoryName" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true">×
+                </button>
+                <h4 class="modal-title" id="">
+                    新增/修改设备名称
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form" th:action="@{/parameter/addOrModifyAccessoryName}" method="post">
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">设备名称</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="accessoryName"
+                                   placeholder="请输入品牌名称"/>
+                            <input type="hidden" name="accessoryId"/>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default"
+                        data-dismiss="modal">关闭
+                </button>
+                <button type="button" class="btn btn-primary">
+                    保存
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<!--新增/修改配备类型-->
+<div class="modal fade" id="addOrModifyDevelopType" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true">×
+                </button>
+                <h4 class="modal-title" id="">
+                    新增/修改配备类型
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form" th:action="@{/parameter/addOrModifyDevelopType}" method="post">
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">配备类型</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="developName"
+                                   placeholder="请输入配备类型"/>
+                            <input type="hidden" name="developId"/>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default"
+                        data-dismiss="modal">关闭
+                </button>
+                <button type="button" class="btn btn-primary">
+                    保存
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<script>
+    $(function () {
+        var branTable = loadBrandTable();
+        var modelTable=loadModelTable();
+        var companyTable=loadCompanyTable();
+        var accessoryNameTable=loadAccessNameTable();
+        var developTable=loadDevelopTable();
+        add(branTable,"#addOrModifyBrand");
+        add(modelTable,"#addOrModifyModel");
+        add(companyTable,"#addOrModifyCompany");
+        add(accessoryNameTable,'#addOrModifyAccessoryName');
+        add(developTable,'#addOrModifyDevelopType');
+        opDelete(branTable,modelTable,companyTable,accessoryNameTable,developTable);
+         //数据回填
+        modifyById();
+    });
+    //加载品牌table
+    function loadBrandTable() {
+
+        var brandTable = $('#brandTable').DataTable({
+            'paging': true,
+            'lengthChange': true,
+            'searching': true,
+            'ordering': true,
+            'info': true,
+            'autoWidth': true,
+            "ajax": '/bbt/parameter/loadBrandList',
+            "columnDefs": [{
+                "targets": 2,
+                "data": null,
+                "searchable": false,
+                "render": function (data, type, row, meta) {
+                    return ' <button type="button" brandId="' + data[0] + '" name="modifyBrand" class="btn btn-sm btn-default">修改</button>' +
+                        ' <button type="button" brandId="' + data[0] + '" name="deleteBrand" class="btn btn-sm btn-danger">删除</button>';
+                }
+            }],
+            "language": { // 定义语言
+                "sProcessing": "加载中...",
+                "sLengthMenu": "每页显示 _MENU_ 条记录",
+                "sZeroRecords": "没有匹配的结果",
+                "sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+                "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
+                "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+                "sInfoPostFix": "",
+                "sSearch": "搜索:",
+                "sUrl": "",
+                "sEmptyTable": "表中数据为空",
+                "sLoadingRecords": "载入中...",
+                "sInfoThousands": ",",
+                "oPaginate": {
+                    "sFirst": "首页",
+                    "sPrevious": "上一页",
+                    "sNext": "下一页",
+                    "sLast": "末页"
+                },
+            }
+        });
+        return brandTable;
+
+    }
+
+
+
+    //加载型号表
+    function loadModelTable() {
+
+        var modelTable = $('#modelTable').DataTable({
+            'paging': true,
+            'lengthChange': true,
+            'searching': true,
+            'ordering': true,
+            'info': true,
+            'autoWidth': true,
+            "ajax": '/bbt/parameter/loadModelList',
+            "columnDefs": [{
+                "targets": 2,
+                "data": null,
+                "searchable": false,
+                "render": function (data, type, row, meta) {
+                    return ' <button type="button" modelId="' + data[0] + '" name="modifyModel" class="btn btn-sm btn-default">修改</button>' +
+                        ' <button type="button" modelId="' + data[0] + '" name="deleteModel" class="btn btn-sm btn-danger">删除</button>';
+                }
+            }],
+            "language": { // 定义语言
+                "sProcessing": "加载中...",
+                "sLengthMenu": "每页显示 _MENU_ 条记录",
+                "sZeroRecords": "没有匹配的结果",
+                "sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+                "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
+                "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+                "sInfoPostFix": "",
+                "sSearch": "搜索:",
+                "sUrl": "",
+                "sEmptyTable": "表中数据为空",
+                "sLoadingRecords": "载入中...",
+                "sInfoThousands": ",",
+                "oPaginate": {
+                    "sFirst": "首页",
+                    "sPrevious": "上一页",
+                    "sNext": "下一页",
+                    "sLast": "末页"
+                },
+            }
+        });
+        return modelTable;
+
+    }
+
+
+    //加载企业表
+    function loadCompanyTable() {
+
+        var companyTable = $('#companyTable').DataTable({
+            'paging': true,
+            'lengthChange': true,
+            'searching': true,
+            'ordering': true,
+            'info': true,
+            'autoWidth': true,
+            "ajax": '/bbt/parameter/loadCompanyList',
+            "columnDefs": [{
+                "targets": 4,
+                "data": null,
+                "searchable": false,
+                "render": function (data, type, row, meta) {
+                    return ' <button type="button" companyId="' + data[0] + '" name="modifyCompany" class="btn btn-sm btn-default">修改</button>' +
+                        ' <button type="button" companyId="' + data[0] + '" name="deleteCompany" class="btn btn-sm btn-danger">删除</button>';
+                }
+            }],
+            "language": { // 定义语言
+                "sProcessing": "加载中...",
+                "sLengthMenu": "每页显示 _MENU_ 条记录",
+                "sZeroRecords": "没有匹配的结果",
+                "sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+                "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
+                "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+                "sInfoPostFix": "",
+                "sSearch": "搜索:",
+                "sUrl": "",
+                "sEmptyTable": "表中数据为空",
+                "sLoadingRecords": "载入中...",
+                "sInfoThousands": ",",
+                "oPaginate": {
+                    "sFirst": "首页",
+                    "sPrevious": "上一页",
+                    "sNext": "下一页",
+                    "sLast": "末页"
+                },
+            }
+        });
+        return companyTable;
+
+    }
+
+    //加载设备名称表格
+    function loadAccessNameTable() {
+
+        var accessNameTable = $('#accessoryName').DataTable({
+            'paging': true,
+            'lengthChange': true,
+            'searching': true,
+            'ordering': true,
+            'info': true,
+            'autoWidth': true,
+            "ajax": '/bbt/parameter/loadAccessNameTableList',
+            "columnDefs": [{
+                "targets": 2,
+                "data": null,
+                "searchable": false,
+                "render": function (data, type, row, meta) {
+                    return ' <button type="button" accessoryId="' + data[0] + '" name="modifyAccName" class="btn btn-sm btn-default">修改</button>' +
+                        ' <button type="button" accessoryId="' + data[0] + '" name="deleteAccName" class="btn btn-sm btn-danger">删除</button>';
+                }
+            }],
+            "language": { // 定义语言
+                "sProcessing": "加载中...",
+                "sLengthMenu": "每页显示 _MENU_ 条记录",
+                "sZeroRecords": "没有匹配的结果",
+                "sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+                "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
+                "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+                "sInfoPostFix": "",
+                "sSearch": "搜索:",
+                "sUrl": "",
+                "sEmptyTable": "表中数据为空",
+                "sLoadingRecords": "载入中...",
+                "sInfoThousands": ",",
+                "oPaginate": {
+                    "sFirst": "首页",
+                    "sPrevious": "上一页",
+                    "sNext": "下一页",
+                    "sLast": "末页"
+                },
+            }
+        });
+        return accessNameTable;
+
+    }
+
+    // 加载配备类型表格
+
+    function loadDevelopTable() {
+
+        var developTable = $('#developType').DataTable({
+            'paging': true,
+            'lengthChange': true,
+            'searching': true,
+            'ordering': true,
+            'info': true,
+            'autoWidth': true,
+            "ajax": '/bbt/parameter/loadDevelopList',
+            "columnDefs": [{
+                "targets": 2,
+                "data": null,
+                "searchable": false,
+                "render": function (data, type, row, meta) {
+                    return ' <button type="button" developId="' + data[0] + '" name="modifyDevelopType" class="btn btn-sm btn-default">修改</button>' +
+                        ' <button type="button" developId="' + data[0] + '" name="deleteDevelopType" class="btn btn-sm btn-danger">删除</button>';
+                }
+            }],
+            "language": { // 定义语言
+                "sProcessing": "加载中...",
+                "sLengthMenu": "每页显示 _MENU_ 条记录",
+                "sZeroRecords": "没有匹配的结果",
+                "sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+                "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
+                "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+                "sInfoPostFix": "",
+                "sSearch": "搜索:",
+                "sUrl": "",
+                "sEmptyTable": "表中数据为空",
+                "sLoadingRecords": "载入中...",
+                "sInfoThousands": ",",
+                "oPaginate": {
+                    "sFirst": "首页",
+                    "sPrevious": "上一页",
+                    "sNext": "下一页",
+                    "sLast": "末页"
+                },
+            }
+        });
+        return developTable;
+
+    }
+
+
+
+
+    //新增，关闭时清空数据
+
+    function add(table,id) {
+        //执行新增
+        $(id).find('.btn-primary').on('click', function () {
+            $(id).find('form').ajaxSubmit(function (result) {
+                alert(result);
+                $(id).modal('hide');
+                table.ajax.reload();
+            });
+
+        });
+
+        //清空数据
+        $(id).on('hide.bs.modal', function () {
+            $(this).find('.form-group').removeClass('has-error');
+            $(this).find('.form-group input,select,textarea').val('');
+        })
+
+    }
+
+    //修改数据回填
+    function modifyById() {
+
+        $(document).off('click','button[name="modifyBrand"]').on('click','button[name="modifyBrand"]',function () {
+            $('#addOrModifyBrand').modal('show');
+            var brandId=$(this).attr('brandId');
+            $.post('/bbt/parameter/findBrandById',{brandId:brandId},function (result) {
+                $('input[name="brandName"]').val(result.brandName);
+                $('input[name="brandId"]').val(result.brandId);
+            });
+
+        });
+
+
+        $(document).off('click','button[name="modifyModel"]').on('click','button[name="modifyModel"]',function () {
+            $('#addOrModifyModel').modal('show');
+            var modelId=$(this).attr('modelId');
+            $.post('/bbt/parameter/findModelById',{modelId:modelId},function (result) {
+                $('input[name="modelName"]').val(result.modelName);
+                $('input[name="modelId"]').val(result.modelId);
+            });
+
+        });
+
+
+        $(document).off('click','button[name="modifyCompany"]').on('click','button[name="modifyCompany"]',function () {
+            $('#addOrModifyCompany').modal('show');
+            var companyId=$(this).attr('companyId');
+            $.post('/bbt/parameter/findCompanyById',{companyId:companyId},function (result) {
+                $('input[name="companyName"]').val(result.companyName);
+                $('input[name="companyId"]').val(result.companyId);
+                $('input[name="phone"]').val(result.phone);
+                $('input[name="address"]').val(result.address);
+            });
+
+        });
+
+
+        $(document).off('click','button[name="modifyAccName"]').on('click','button[name="modifyAccName"]',function () {
+            $('#addOrModifyAccessoryName').modal('show');
+            var accNameId=$(this).attr('accessoryId');
+            $.post('/bbt/parameter/findAccessoryNameById',{accNameId:accNameId},function (result) {
+                $('input[name="accessoryName"]').val(result.accessoryName);
+                $('input[name="accessoryId"]').val(result.accessoryId);
+
+            });
+        });
+
+
+        $(document).off('click','button[name="modifyDevelopType"]').on('click','button[name="modifyDevelopType"]',function () {
+            $('#addOrModifyDevelopType').modal('show');
+            var developId=$(this).attr('developId');
+            $.post('/bbt/parameter/findDevelopTypeById',{developId:developId},function (result) {
+                $('input[name="developName"]').val(result.developName);
+                $('input[name="developId"]').val(result.developId);
+
+            });
+        })
+
+
+    }
+
+
+
+    //删除
+    function deleteById(id,name,url,table) {
+        $(document).off('click',id).on('click',id,function () {
+            var con=confirm("确认要删除吗？");
+            if(con){
+                var data={};
+                var value=$(this).attr(name);
+                data[name]=value;
+                $.post(url,data,function (result) {
+                    alert(result);
+                    table.ajax.reload();
+                });
+            }
+        });
+    }
+    function opDelete(brandTable,modelTable,companyTable,accTable,developTable) {
+        deleteById('button[name="deleteBrand"]','brandId','/bbt/parameter/deleteBrand',brandTable);
+        deleteById('button[name="deleteModel"]','modelId','/bbt/parameter/deleteModel',modelTable);
+        deleteById('button[name="deleteCompany"]','companyId','/bbt/parameter/deleteCompany',companyTable);
+        deleteById('button[name="deleteAccName"]','accessoryId','/bbt/parameter/deleteAccessoryName',accTable);
+        deleteById('button[name="deleteDevelopType"]','developId','/bbt/parameter/deleteDevelopType',developTable);
+    }
+
+
+
+
+</script>
+</html>

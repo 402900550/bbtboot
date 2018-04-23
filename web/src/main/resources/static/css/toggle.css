@@ -1,0 +1,78 @@
+/*! normalize.css v3.0.2 | MIT License | git.io/normalize */
+
+
+*,
+*:before,
+*:after {
+	box-sizing: border-box;
+}
+
+
+
+.toggle {
+	position: relative;
+	display: block;
+	/*margin: 0 auto;*/
+	width: 90px;
+	height: 22px;
+	color: white;
+	outline: 0;
+	text-decoration: none;
+	border-radius: 100px;
+	/*border: 2px solid #546E7A;*/
+	background-color: #d7dfe2;
+	transition: all 500ms;
+}
+
+.toggle:active {
+	background-color:  #bdc6ca;
+}
+
+.toggle:hover:not(.toggle--moving):after {
+	background-color:#bdc6ca;
+}
+
+.toggle:after {
+	display: block;
+	position: absolute;
+	top: 2px;
+	bottom: 2px;
+	left: 4px;
+	width: calc(50% - 4px);
+	line-height: 45px;
+	text-align: center;
+	text-transform: uppercase;
+	font-size: 20px;
+	color: white;
+	background-color:#585e5f;
+	border: 2px solid;
+	transition: all 500ms;
+}
+
+.toggle--on:after {
+	content: 'On';
+	border-radius: 50px 5px 5px 50px;
+	color: #66BB6A;
+	font-size: 12px;
+	line-height: 14px;
+}
+
+.toggle--off:after {
+	content: 'Off';
+	border-radius: 5px 50px 50px 5px;
+	transform: translate(100%, 0);
+	color: #f44336;
+	font-size: 12px;
+	line-height: 14px;
+}
+
+.toggle--moving {
+	background-color:  #bdc6ca;
+}
+
+.toggle--moving:after {
+	color: transparent;
+	/*border-color: #435862;*/
+	background-color: #bdc6ca;
+	transition: color 0s, transform 500ms, border-radius 500ms, background-color 500ms;
+}

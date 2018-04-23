@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security4">
+
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <title>首页</title>
+    <link rel="icon" type="image/x-icon" th:href="@{/img/favicon.ico}"/>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"/>
+    <link rel="stylesheet" type="text/css" href="../static/css/index.css" th:href="@{/css/index.css}"/>
+    <!-- Bootstrap 3.3.7 -->
+    <link rel="stylesheet" href="../static/bower_components/bootstrap/dist/css/bootstrap.min.css"
+          th:href="@{/bower_components/bootstrap/dist/css/bootstrap.min.css}"/>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="../static/bower_components/font-awesome/css/font-awesome.min.css"
+          th:href="@{/bower_components/font-awesome/css/font-awesome.min.css}"/>
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="../static/bower_components/Ionicons/css/ionicons.min.css"
+          th:href="@{/bower_components/Ionicons/css/ionicons.min.css}"/>
+    <!-- DataTables -->
+    <link rel="stylesheet" href="../static/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css"
+          th:href="@{/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css}"/>
+    <!-- Theme style -->
+    <link rel="stylesheet" href="../static/dist/css/AdminLTE.min.css" th:href="@{/dist/css/AdminLTE.min.css}"/>
+    <link rel="stylesheet" href="../static/dist/css/skins/_all-skins.min.css"
+          th:href="@{/dist/css/skins/_all-skins.min.css}"/>
+</head>
+
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+
+    <header class="main-header">
+        <!-- Logo -->
+        <a class="logo">
+            <div class="the_logo"></div>
+            <!-- mini logo for sidebar mini 50x50 pixels -->
+            <span class="logo-mini"></span>
+            <!-- logo for regular state and mobile devices -->
+            <span class="logo-lg">物联网智慧教室管理系统</span>
+        </a>
+        <!-- Header Navbar: style can be found in header.less -->
+        <nav class="navbar navbar-static-top">
+            <!-- Sidebar toggle button-->
+            <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+                <span class="sr-only">Toggle navigation</span>
+            </a>
+
+            <div class="navbar-custom-menu">
+                <ul class="nav navbar-nav">
+
+                    <!-- Notifications: style can be found in dropdown.less -->
+                    <li class="dropdown notifications-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" sec:authorize="hasAuthority('SCHOOLADMIN')||hasAuthority('DISTNCTADMIN')||hasAuthority('HUANFANGADMIN')||hasAuthority('COMPANY')">
+                            <i class="fa fa-bell-o"></i>
+                            <span class="label label-warning" th:if="${opertionCount!=0}" th:text="${opertionCount}">10</span>
+                        </a>
+                        <ul class="dropdown-menu" sec:authorize="hasAuthority('SCHOOLADMIN')||hasAuthority('DISTNCTADMIN')||hasAuthority('HUANFANGADMIN')||hasAuthority('COMPANY')" >
+                            <li class="header" th:text="'你待处理运维单'+${opertionCount==null?0:opertionCount}+'条'">You have 10 notifications</li>
+                            <li>
+                                <!-- inner menu: contains the actual data -->
+                                <ul class="menu" th:if="${opertions!=null}">
+                                    <li th:each="oper:${opertions}" name="toOpertions">
+                                        <a href="#" th:text="${oper[1]}+'----'+${oper[0]}">
+                                            <i class="fa fa-users text-aqua"></i> 5 new members joined today
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="footer">
+                                <a href="#">View all</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <!-- User Account: style can be found in dropdown.less -->
+                    <li class="dropdown user user-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <img src="../static/dist/img/user2-160x160.jpg" th:src="@{/dist/img/user2-160x160.jpg}"
+                                 class="user-image" alt="User Image"/>
+                            <span class="hidden-xs" th:text="${currentUser.realName}">赵日天</span>
+                        </a>
+                        <!--这是右边的用户信息简章开始-->
+                        <ul class="dropdown-menu">
+                            <!-- User image -->
+                            <li class="user-header">
+                                <img src="../static/dist/img/user2-160x160.jpg" th:src="@{/dist/img/user2-160x160.jpg}"
+                                     class="img-circle" alt="User Image"/>
+                                <p>
+                                <p th:if="${currentSchool!=null}" th:text="${currentSchool.name}">重庆市第一中学</p>
+                                <div th:text="${currentUser.realName}"></div>
+                                </p>
+                            </li>
+                            <!-- Menu Body -->
+                            <li class="user-body">
+                                <div class="row">
+                                    <div class="col-xs-4 text-center">
+                                        <a href="#" th:if="${currentSubject!=null}"
+                                           th:text="${currentSubject.subjectName}">语文</a>
+                                    </div>
+                                    <div class="col-xs-4 text-center">
+                                        <a href="#" th:text="${currentRole.description}">管理员</a>
+                                    </div>
+                                    <div class="col-xs-4 text-center">
+                                        <a href="#" th:text="${'IC:'+currentUser.icardNo}">1232143</a>
+                                    </div>
+                                </div>
+                                <!-- /.row -->
+                            </li>
+                            <!-- Menu Footer-->
+                            <li class="user-footer">
+                                <div class="pull-left">
+                                    <a data-toggle="modal" data-target="#modifyPasswordModal"
+                                       class="btn btn-default btn-flat">修改密码</a>
+                                </div>
+                                <div class="pull-right">
+                                    <a  id="logout" class="btn btn-default btn-flat">注销</a>
+                                </div>
+                            </li>
+                        </ul>
+                        <!--这是右边的用户信息简章结束-->
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <aside class="main-sidebar">
+        <section class="sidebar">
+            <div class="user-panel">
+                <div class="pull-left image">
+                    <img src="../static/dist/img/user2-160x160.jpg" th:src="@{/dist/img/user2-160x160.jpg}"
+                         class="img-circle" alt="User Image"/>
+                </div>
+                <div class="pull-left info">
+                    <p th:text="${currentUser.userName}">赵日天</p>
+                    <a th:text="${currentUser.phone}">TEL：123521423</a>
+                </div>
+            </div>
+            <ul class="sidebar-menu" data-widget="tree">
+                <li class="treeview active addTab" data-url="systemManage/toIndex" data-type="index" id="index">
+                    <a href="#">
+                        <i class="fa fa-home"></i>
+                        <span style="margin-left:5px;">首页</span>
+                    </a>
+                </li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-pie-chart"></i>
+                        <span>应用检测</span>
+                        <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li class="addTab" data-url="applicationMonitoring/timeData" data-type="timeData">
+                            <a><i class="fa fa-circle-o"></i> 实时数据</a>
+                        </li>
+                        <li class="addTab" data-url="applicationMonitoring/usedRecord" data-type="usedRecord">
+                            <a><i class="fa fa-circle-o"></i> 使用记录</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="treeview" sec:authorize="hasAuthority('SCHOOLADMIN')||hasAuthority('DISTNCTADMIN')||hasAuthority('HUANFANGADMIN')||hasAuthority('COMPANY')">
+                    <a href="#">
+                        <i class="fa fa-laptop"></i>
+                        <span>运维管理</span>
+                        <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+                </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li class="addTab" data-url="operationsManagement/maintainStatistics" data-type="operations">
+                            <a><i class="fa fa-circle-o"></i>
+                                运维统计</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa  fa-credit-card"></i> <span>资产管理</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li class="addTab" data-url="assetManage/equipmentStatistics" data-type="equipmentCount">
+                            <a><i class="fa fa-circle-o"></i> 资产统计</a>
+                        </li>
+
+                        <li sec:authorize="hasAuthority('SCHOOLADMIN')" class="addTab"
+                            data-url="assetManage/equipmentInput" data-type="equipmentInput">
+                            <a><i class="fa fa-circle-o"></i> 设备录入</a>
+                        </li>
+
+                        <!--<li class="addTab" data-url="assetManage/equipmentSearch" data-type="equipmentSearch">-->
+                        <!--<a><i class="fa fa-circle-o"></i> 设备查询</a>-->
+                        <!--</li>-->
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="">
+                        <i class="fa fa-bar-chart"></i> <span>数据分析</span>
+                        <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li class="addTab" data-url="dataAnalysis/dataAnalysis" data-type="applications">
+                            <a><i class="fa fa-circle-o"></i> 应用统计</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-cog"></i> <span>系统设置</span>
+                        <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li sec:authorize="hasAuthority('SCHOOLADMIN')||hasAuthority('DISTNCTADMIN')||hasAuthority('HUANFANGADMIN')"
+                            class="addTab" data-url="systemManage/school" data-type="school">
+                            <a><i class="fa fa-circle-o"></i> 学校管理</a>
+                        </li>
+
+                        <li sec:authorize="hasAuthority('SCHOOLADMIN')||hasAuthority('DISTNCTADMIN')||hasAuthority('HUANFANGADMIN')"
+                            class="addTab" data-url="systemManage/userManagement" data-type="useres">
+                            <a><i class="fa fa-circle-o"></i> 用户管理</a>
+                        </li>
+
+                        <li sec:authorize="hasAuthority('HUANFANGADMIN')" class="addTab" data-type="parameters"
+                            data-url="systemManage/managementParameter">
+                            <a><i class="fa fa-circle-o"></i> 参数管理</a>
+                        </li>
+                        <li sec:authorize="hasAuthority('SCHOOLADMIN')||hasAuthority('HUANFANGADMIN')"
+                            class="addTab" data-url="systemManage/timeTable" data-type="timesTable">
+                            <a><i class="fa fa-circle-o"></i> 作息时间</a>
+                        </li>
+                    </ul>
+                </li>
+
+            </ul>
+        </section>
+    </aside>
+    <div class="content-wrapper">
+
+    </div>
+    <!-- /.content-wrapper -->
+    <footer class="main-footer">
+        <strong>重庆幻方科技有限公司 版权所有 @2016-2020&nbsp;&nbsp;&nbsp;重庆幻方科技技术支持 电话：&nbsp;023-65350991</strong>
+    </footer>
+
+    <!-- Control Sidebar -->
+
+    <!--修改密码弹框-->
+    <div class="modal fade" id="modifyPasswordModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title">
+                        修改密码
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" role="form" action="/bbt/user/modifyPassword" method="post">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">旧密码</label>
+                            <div class="col-sm-10">
+                                <input type="password" class="form-control" name="oldPwd" placeholder="请输入旧密码"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">新密码</label>
+                            <div class="col-sm-10">
+                                <input type="password" class="form-control" name="newPwd" placeholder="请输入新密码"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">确认新密码</label>
+                            <div class="col-sm-10">
+                                <input type="password" class="form-control" name="comNewPwd" placeholder="确认密码"/>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                    </button>
+                    <button type="button" class="btn btn-primary">
+                        保存
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+</div>
+
+<!-- jQuery 3 -->
+<script src="../static/bower_components/jquery/dist/jquery.min.js"
+        th:src="@{/bower_components/jquery/dist/jquery.min.js}"></script>
+<!--<script>-->
+<!--$.widget.bridge('uibutton', $.ui.button);-->
+<!--</script>-->
+<!-- Bootstrap 3.3.7 -->
+<script src="../static/bower_components/bootstrap/dist/js/bootstrap.min.js"
+        th:src="@{/bower_components/bootstrap/dist/js/bootstrap.min.js}"></script>
+<!-- ChartJS -->
+<script src="../static/bower_components/Chart.js/Chart.js" th:src="@{/bower_components/Chart.js/Chart.js}"></script>
+<script src="../static/bower_components/raphael/raphael.min.js"
+        th:src="@{/bower_components/raphael/raphael.min.js}"></script>
+<script src="../static/bower_components/morris.js/morris.min.js"
+        th:src="@{/bower_components/morris.js/morris.min.js}"></script>
+<!--<script src="bower_components/jquery-sparkline/dist/jquery.sparkline.min.js"></script>-->
+<script src="../static/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"
+        th:src="@{/bower_components/jquery-slimscroll/jquery.slimscroll.min.js}"></script>
+<script src="../static/dist/js/adminlte.min.js" th:src="@{/dist/js/adminlte.min.js}"></script>
+
+<script src="../../static/js/jquery.flot.js" th:src="@{/js/jquery.flot.js}"></script>
+<script src="../../static/js/jquery.flot.categories.js" th:src="@{/js/jquery.flot.categories.js}"></script>
+<!-- DataTables -->
+<script src="../static/bower_components/datatables.net/js/jquery.dataTables.min.js"
+        th:src="@{/bower_components/datatables.net/js/jquery.dataTables.min.js}"></script>
+<script src="../static/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"
+        th:src="@{/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js}"></script>
+<!--form.js-->
+<script src="../static/js/jquery.form.js" th:src="@{/js/jquery.form.js}"></script>
+<script src="../static/js/index.js" th:src="@{/js/index.js}"></script>
+<script>
+    flush='';
+    flush2='';
+</script>
+</body>
+
+</html>

@@ -1,0 +1,112 @@
+.time_warp{
+    width: 98%;
+    margin-top:20px;
+    margin-left: 1%;
+    float: left;
+    background: #ffffff;
+    height: 800px;
+}
+.time_title {
+    line-height: 40px;
+    font-size: 20px;
+    color: #444;
+    margin-left:10px;
+    width: 90%;
+    height: 40px;
+    position: absolute;
+}
+.time_main{
+    border-top:1px solid #f4f4f4;
+    width:100%;
+    height:760px;
+    float: left;
+    margin-top:40px;
+}
+.form-control{
+    width: 165px;
+    float: right;
+    margin-top: 3px;
+    margin-right: 120px;
+    padding-left: 35px;
+}
+.the_title{
+    line-height: 40px;
+    font-size: 14px;
+    color: #444;
+    margin-left:10px;
+    width: 90%;
+    height: 40px;
+}
+.time_table{
+    width: 98%;
+    height: 40px;
+    margin-top:5px;
+    margin-left:1%;
+    float: left;
+    background: #f4f4f4;
+    cursor: pointer;
+}
+.time_table:hover{
+    background: #ffffff;
+    border:1px solid #f4f4f4;
+}
+.time_table:hover > .glyphicon-pencil{
+    display: block;
+}
+.time_table:hover > .glyphicon-trash{
+    display: block;
+}
+.time_table:hover>.time_number{
+    background: #ffffff;
+}
+.time_table:hover>.the_time{
+    background: #ffffff;
+}
+.time_number{
+    width: 80px;
+    height: 38px;
+    line-height: 40px;
+    float: left;
+    margin-left:5%;
+    padding-left:15px;
+    background: #f4f4f4;
+    border:none;
+}
+.the_time{
+    width: 130px;
+    height: 38px;
+    line-height: 40px;
+    float: left;
+    margin-left:10%;
+    background: #f4f4f4;
+    border:none;
+    padding-left:10px;
+}
+.the_word{
+    line-height: 40px;
+    margin-left: -250px;
+}
+.glyphicon-pencil,.glyphicon-trash{
+    font-size: 20px;
+    margin-top:10px;
+    float:right;
+    color: #3c8dbc;
+    display: none;
+}
+.glyphicon-pencil{
+    margin-right: 6%;
+}
+.glyphicon-pencil:hover{
+    color: #3cadef;
+}
+.glyphicon-trash{
+    margin-right: -3%;
+}
+.glyphicon-trash:hover{
+    color: #3cadef;
+}
+@media screen and (max-width: 1366px){
+    .glyphicon-trash {
+        margin-right: -5%;
+    }
+}

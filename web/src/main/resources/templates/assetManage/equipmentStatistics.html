@@ -1,0 +1,213 @@
+<style>
+    #equipmentStatistics tr{
+        cursor: pointer;
+    }
+</style>
+<section class="content-header">
+    <h1>资产管理</h1>
+    <!--这是页面定位开始-->
+    <ol class="breadcrumb">
+        <li>
+            <a href="#"><i class="fa fa-home"></i> 资产管理</a>
+        </li>
+        <li class="active">资产统计</li>
+    </ol>
+    <!--这是页面定位结束-->
+</section>
+
+<section class="content">
+    <!--这是用户列表开始-->
+    <div class="box">
+        <div class="box-header" style="border-bottom: 1px solid #eeeeee;">
+            沙坪坝区—设备统计
+        </div>
+        <div class="box-body">
+
+            <div class="box-body">
+                <table id="equipmentStatistics" class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th>学校</th>
+                        <th>班级总数</th>
+                        <th>检测数</th>
+                        <th>班班通套数</th>
+                        <th>完好数</th>
+                        <th>完好率</th>
+                        <th>资产总额</th>
+                        <th>建设年代</th>
+                        <th style="width: 200px">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+
+                </table>
+            </div>
+
+        </div>
+
+    </div><!--这是用户列表结束-->
+</section>
+
+<section class="content">
+    <!--这是设备统计图表开始-->
+    <div class="box">
+        <div class="box-header" style="border-bottom: 1px solid #eeeeee;">设备完好率统计图表</div>
+        <div class="box-body">
+            <div id="bar-chart" style="height: 300px;margin:0 auto;"></div>
+        </div>
+    </div>
+    <!--这是设备统计结束-->
+</section>
+<script>
+
+
+    //图形
+    $(function () {
+        var data;
+        $.ajax({
+            url:'/bbt/statis/loadSchoolEqAccrssery',
+            dataType: 'json',
+            async: false,
+            type: 'post',
+            success: function (list) {
+                    data = list;
+            }
+        });
+
+        //					这是实时数据柱状图
+        var bar_data = {
+            data : data,
+            color: '#3c8dbc'
+        }
+        $.plot('#bar-chart', [bar_data], {
+            grid  : {
+                hoverable  : true,
+                borderWidth: 1,
+                borderColor: '#f3f3f3',
+                tickColor  : '#f3f3f3'
+            },
+            series: {
+                bars: {
+                    show    : true,
+                    barWidth: 0.5,
+                    align   : 'center'
+                }
+            },
+            xaxis : {
+                mode      : 'categories',
+                tickLength: 0
+            }
+        })
+    })
+    //Initialize tooltip on hover
+    $('<div class="tooltip-inner" id="bar-chart-tooltip"></div>').css({
+        position: 'absolute',
+        display : 'none',
+        opacity : 0.8
+    }).appendTo('body')
+    $('#bar-chart').bind('plothover', function (event, pos, item) {
+
+        if (item) {
+            var x = item.datapoint[1].toFixed(2);
+
+            $('#bar-chart-tooltip').html('完好率'+x+'%')
+                .css({ top: item.pageY + 5, left: item.pageX + 5 })
+                .fadeIn(100)
+        } else {
+            $('#bar-chart-tooltip').hide()
+        }
+
+    })
+</script>
+<script>
+    $(function () {
+        var statisTable=loadStatisTable();
+        forwardSchoolStatics();
+    });
+
+
+    //加载表格
+    function loadStatisTable() {
+        var table=$('#equipmentStatistics').DataTable({
+            'paging'      : true,
+            'lengthChange': true,
+            'searching'   : true,
+            'ordering'    : true,
+            'info'        : true,
+            'autoWidth'   : true,
+            "ajax": '/bbt/statis/loadAssetStatis',
+            "columnDefs": [ {
+                "targets": 8,
+                "data": null,
+                "searchable":false,
+                "render":function (data, type, row, meta) {
+                    return ' <button type="button" schoolCode="'+data[8]+'" name="lookSchoolStatic" class="btn btn-sm btn-default">学校详情</button> ';
+                }
+
+            },{
+                "targets": 5,
+                "data": function (data, type, row, meta) {
+                    return data[5]*100+"%"
+                },
+                "searchable": false
+            },
+                {
+                    "targets": 6,
+                    "data": function (data, type, row, meta) {
+                        return data[6]?data[6]:0;
+                    },
+                    "searchable": false
+                },
+                {
+                    "targets": 7,
+                    "data": function (data, type, row, meta) {
+                        return data[7]?data[7]:"无";
+                    },
+                    "searchable": false
+                }],
+            "language": { // 定义语言
+                "sProcessing": "加载中...",
+                "sLengthMenu": "每页显示 _MENU_ 条记录",
+                "sZeroRecords": "没有匹配的结果",
+                "sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+                "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
+                "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+                "sInfoPostFix": "",
+                "sSearch": "搜索:",
+                "sUrl": "",
+                "sEmptyTable": "表中数据为空",
+                "sLoadingRecords": "载入中...",
+                "sInfoThousands": ",",
+                "oPaginate": {
+                    "sFirst": "首页",
+                    "sPrevious": "上一页",
+                    "sNext": "下一页",
+                    "sLast": "末页"
+                },
+            }
+        });
+        return table;
+    }
+
+    function forwardSchoolStatics() {
+
+        $(document).off('click','button[name="lookSchoolStatic"]').on('click','button[name="lookSchoolStatic"]',function (e) {
+            var schoolCode=$(this).attr('schoolCode');
+            $.post('/bbt/statis/forwardSchoolStatics', {schoolCode: schoolCode}, function (result) {
+                $('.content-wrapper').empty();
+                $('.content-wrapper').html(result);
+            });
+            e.stopPropagation();
+        })
+
+        $(document).off('click','#equipmentStatistics tr').on('click','#equipmentStatistics tr',function () {
+            $(this).find('button[name="lookSchoolStatic"]').trigger('click');
+        })
+
+    }
+
+
+
+</script>

@@ -1,0 +1,41 @@
+.dataTables_filter{
+    margin-left: -620px;
+    width: 220px;
+}
+.the_user{
+    width: 100%;
+    height: 30px;
+    margin-top: 20px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #f4f4f4;
+    padding-left: 15px;
+}
+/*这是笔记本自适应*/
+@media screen and (max-width:1366px){
+    .dataTables_filter{
+        margin-left: -355px;
+    }
+}
+/*这是平板电脑自适应*/
+@media screen and (max-width:1024px){
+    .dataTables_filter{
+        margin-left: -180px;
+    }
+}
+/*这是手机自适应*/
+@media screen and (max-width:768px){
+    .dataTables_filter{
+        margin-left: -10px;
+    }
+    .the_button{
+        margin-top: 35px;
+        margin-left: 220px !important;
+    }
+    .environmental{
+        font-size: 12px;
+    }
+    .the_btn{
+        margin-top: 110px !important;
+        margin-left: 240px !important;
+    }
+}

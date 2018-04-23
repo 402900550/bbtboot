@@ -1,0 +1,1076 @@
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" th:href="@{/css/building.css}"/>
+
+
+<section class="content-header">
+    <h1><span>沙坪坝区</span>—学校管理—教学楼管理</h1>
+    <!--这是页面定位开始-->
+    <ol class="breadcrumb">
+        <li>
+            <a href="#"><i class="fa fa-home"></i> 系统设置</a>
+        </li>
+        <li class="active">学校管理</li>
+    </ol>
+    <!--这是页面定位结束-->
+</section>
+
+<section style="background:#f4f4f4;min-height: 918px;margin-top:10px; ">
+    <div style="background:#f4f4f4;height: 10px;"></div>
+    <div style="background:#ffffff;">
+        <div class="building_title"><span th:text="${school.name}"></span>-----教室/办公室列表</div>
+        <input type="hidden" th:value="${school.schoolCode}" id="schoolCode"/>
+        <!-- /.box-header -->
+        <div class="tab-content no-padding">
+            <div class="chart tab-pane active" id="school">
+                <div class="box-body">
+                    <div class="screen_warps" id="buildingLists">
+                        <div class="screen_lefts">教学楼选择</div>
+                        <div class="screen_rights">
+                            <!--<div th:each="building : ${buildingList}"  th:text="${building.buildingName}" th:attr="buildingId = ${building.id}" >-->
+                            <!--</div>-->
+                        </div>
+                        <div class="building_adds" data-toggle="modal"   data-target="#addBuilding">添加</div>
+                    </div>
+                    <div class="screen_warps" id="gradeLists">
+                        <div class="screen_lefts">年级选择</div>
+                        <div class="screen_rights">
+                            <!--<div th:each="gradeList : ${gradeAll}" th:text="${gradeList.name}" th:attr="gradeId =${gradeList.id}">-->
+                            <!--</div>-->
+                        </div>
+                        <div class="building_adds" data-toggle="modal"   data-target="#addGrade">添加</div>
+                    </div>
+                    <button type="submit " name="search " class="btn btn-flat the_button " style="position: absolute;margin-left: 466px;z-index: 100;height: 30px;line-height: 15px;" data-toggle="modal"    data-target="#addRoomClass">
+                        <i class="fa fa-plus "></i>
+                        添加教室班级
+                    </button>
+                    <button type="submit " name="search " class="btn btn-flat the_button " style="position: absolute;margin-left: 630px;z-index: 100;height: 30px;line-height: 15px;" data-toggle="modal"    data-target="#addClassRoom">
+                        <i class="fa fa-plus "></i>
+                        添加教室
+                    </button>
+                    <button type="submit " name="search " class="btn btn-flat the_button " style="position: absolute;margin-left: 765px;z-index: 100;height: 30px;line-height: 15px;" data-toggle="modal"    data-target="#addClass">
+                        <i class="fa fa-plus "></i>
+                        添加班级
+                    </button>
+                    <table id="example1" class="table table-bordered table-striped">
+                        <thead>
+                        <tr>
+                            <th>教学楼</th>
+                            <th>教师/办公室</th>
+                            <th>教室编号</th>
+                            <th>年级班级</th>
+                            <th>设备号</th>
+                            <th style="width: 300px;">操作</th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+            <!--<div class="chart tab-pane " id="subject">-->
+                <!--学科-->
+            <!--</div>-->
+            <!--<div class="chart tab-pane " id="teacher">老师</div>-->
+        </div>
+
+        <!-- /.box-body -->
+    </div>
+</section>
+
+<!--增加-->
+<div class="modal fade" id="addRoomClass" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    新增教室/办公室/班级
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form" action="/bbt/building/addRoomClass" method="post">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">教学楼</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" name="buildingId">
+                                <option value="">请选择教学楼</option>
+                                <option th:each="building : ${buildingList}" th:text="${building.buildingName}" th:value="${building.id}"></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">办公室/教室</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" name="roomType">
+                                <option value="">请选择办公室/教室</option>
+                                <option value="办公室">办公室</option>
+                                <option value="教室">教室</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">教室编号</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="roomCode" placeholder="请输入办公室或者教室编号"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">年级</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" name="gradeId">
+                                <option value="" >请选择年级</option>
+                                <!--<option th:each="gradeList : ${gradeAll} " th:value="${gradeList.id}"-->
+                                        <!--th:text="${gradeList.name}"></option>-->
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">班级</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="className"
+                                   placeholder="请输入班级名称"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">设备号</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="equipmentNo"
+                                   placeholder="请绑定设备编号"/>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default"
+                        data-dismiss="modal">关闭
+                </button>
+                <button type="button" class="btn btn-primary">
+                    保存
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!--添加班级-->
+<div class="modal fade" id="addClass" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true">×
+                </button>
+                <h4 class="modal-title">
+                    新增班级
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form" action="/bbt/building/addClass" method="post">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">年级</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" name="gradeId">
+                                <option value="" >请选择年级</option>
+                                <!--<option th:each="gradeList : ${gradeAll} " th:value="${gradeList.id}"-->
+                                        <!--th:text="${gradeList.name}"></option>-->
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">班级</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="className"
+                                   placeholder="请输入班级名称"/>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">班主任</label>
+                <div class="col-sm-10">
+                    <select class="form-control" name="userId">
+                        <option value="" >请选择班主任</option>
+                        <option th:each="users : ${userAll}" th:value="${users.id}" th:text="${users.realName}" ></option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default"
+                        data-dismiss="modal">关闭
+                </button>
+                <button type="button" class="btn btn-primary">
+                    保存
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!--添加教室-->
+<div class="modal fade" id="addClassRoom" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true">×
+                </button>
+                <h4 class="modal-title" >
+                    新增教室/办公室
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form" action="/bbt/building/addClassRoom" method="post">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">教学楼</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" name="buildingId">
+                                <option value="">请选择教学楼</option>
+                                <option th:each="building : ${buildingList}" th:text="${building.buildingName}" th:value="${building.id}"></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">办公室/教室</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" name="roomType">
+                                <option value="">请选择办公室/教室</option>
+                                <option value="办公室">办公室</option>
+                                <option value="教室">教室</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">教室编号</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="roomCode" placeholder="请输入办公室或者教室编号"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">设备号</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="equipmentNo"
+                                   placeholder="请绑定设备编号"/>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default"
+                        data-dismiss="modal">关闭
+                </button>
+                <button type="button" class="btn btn-primary">
+                    保存
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!--修改-->
+<div class="modal fade" id="updateRoomClass" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true">×
+                </button>
+                <h4 class="modal-title">
+                    修改教室/办公室/班级
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form" action="/bbt/building/updateBuilding" method="post">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">教学楼</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" name="buildingId">
+                                <option value="">请选择教学楼</option>
+                                <!--<option th:each="building : ${buildingList}" th:text="${building.buildingName}" th:value="${building.id}"></option>-->
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">教室编号</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" name="roomCode">
+                                <option value="">请选择教室/办公室编号</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">年级</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" name="gradeId">
+                                <option value="">请选择年级</option>
+                                <!--<option th:each="gradeList : ${gradeAll} " th:value="${gradeList.id}"-->
+                                        <!--th:text="${gradeList.name}"></option>-->
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">班级</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" name="classId">
+                                <option value="">请选择班级</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">设备号</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="equipmentNo"
+                                   placeholder="请绑定设备编号"/>
+                            <input type="hidden" name="roomId"/>
+                            <input type="hidden" name="classId"/>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default"
+                        data-dismiss="modal">关闭
+                </button>
+                <button type="button" class="btn btn-primary">
+                    保存
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!--添加教学楼-->
+<div class="modal fade" id="addBuilding" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true">×
+                </button>
+                <h4 class="modal-title">
+                    添加教学楼
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form" action="/bbt/building/addBuilding" method="post">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">教学楼</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="buildingName" placeholder="请输入教学楼名称"/>
+                            <input type="hidden" th:value="${school.schoolCode}" name="schoolCode"/>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                </button>
+                <button type="button" class="btn btn-primary">
+                    保存
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!--添加年级-->
+<div class="modal fade" id="addGrade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">
+                    添加年级
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form" action="/bbt/building/addGrade" method="post">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">年级</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="gradeName" placeholder="请输入年级名称"/>
+                            <input type="hidden" th:value="${school.schoolCode}" name="schoolCode"/>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                </button>
+                <button type="button" class="btn btn-primary">
+                    保存
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!--修改教室-->
+<div class="modal fade" id="updateRoom" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true">×
+                </button>
+                <h4 class="modal-title">
+                    修改教室/办公室/班级
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form" action="/bbt/building/updateRoom" method="post">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">教学楼</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" name="buildingId" disabled="disabled">
+                                <option value="">请选择教学楼</option>
+                                <option th:each="building : ${buildingList}" th:text="${building.buildingName}" th:value="${building.id}"></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">办公室/教室</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" name="roomType">
+                                <option value="">请选择办公室/教室</option>
+                                <option value="办公室">办公室</option>
+                                <option value="教室">教室</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">教室编号</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="roomCode"
+                                   placeholder="请修改教室/办公室编号"/>
+                        </div>
+                    </div>
+                    <input type="hidden" name="roomId"/>
+                    <input type="hidden" name="classId"/>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default"
+                        data-dismiss="modal">关闭
+                </button>
+                <button type="button" class="btn btn-primary">
+                    保存
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!--修改班级-->
+<div class="modal fade" id="updateClass" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true">×
+                </button>
+                <h4 class="modal-title">
+                    修改教室/办公室/班级
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form" action="/bbt/building/updateClass" method="post">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">年级</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" name="gradeId">
+                                <option value="">请选择年级</option>
+                                <!--<option th:each="gradeList : ${gradeAll} " th:value="${gradeList.id}"-->
+                                        <!--th:text="${gradeList.name}"></option>-->
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">班级</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="className"
+                                   placeholder="请输入班级"/>
+                            <input type="hidden" name="roomId"/>
+                            <input type="hidden" name="classId"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">班主任</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" name="userId">
+                                <option value="" >请选择班主任</option>
+                                <option th:each="users : ${userAll}" th:value="${users.id}" th:text="${users.realName}" ></option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default"
+                        data-dismiss="modal">关闭
+                </button>
+                <button type="button" class="btn btn-primary">
+                    保存
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!--解除绑定-->
+<div class="modal fade" id="removeBuilding" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true">×
+                </button>
+                <h4 class="modal-title">
+                    解除绑定
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form" action="/bbt/building/removeBuilding" method="post">
+                    <div class="form-group">
+                        <div class="col-sm-10">
+                            <label > <input type="checkbox" value="l" name="classRoomId"/>教室班级绑定</label>
+                            <input type="hidden" name="classId" />
+                            <input type="hidden" name="roomId" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-10">
+                            <label><input type="checkbox" value="2" name="eqClassRoom"/>教室设备绑定</label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default"
+                        data-dismiss="modal">关闭
+                </button>
+                <button type="button" class="btn btn-primary">
+                    保存
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<script>
+    $(function () {
+
+        var table=loadBuildingDataTable();
+
+        //动态加载教学楼年级
+        loadBuildingGrade();
+
+        //改变条件
+        changeSelected(table);
+        $('.screen_rights div').eq(0).trigger('click');
+
+
+        //添加教室班级设备号
+        doAddRoomClass(table);
+
+        //修改教室班级设备号
+        updateRoomGradeClass(table);
+
+        //添加教学楼
+        doAddBuilding(table);
+
+        //添加年级
+        doAddGrade(table);
+
+        //删除教室
+        deleteClassRoom(table);
+
+        //删除教学楼
+        deleteBuilding(table);
+
+        //删除年级
+        deleteGrade(table);
+
+        //添加班级
+        doAddClass(table);
+
+        //添加教室
+        doAddClassRoom(table);
+
+        //查询教室/办公室编号
+        loadBuildingClassRoom(table);
+
+        //根据年级查询班级
+        loadBuildingGradeClass(table);
+
+        //修改教室
+        updateRoom(table);
+
+        //修改班级
+        updateClass(table);
+
+        //解除绑定
+        removeBuilding(table);
+    });
+      function loadBuildingDataTable() {
+          var buildingTable = $('#example1').DataTable({
+            'paging': true,
+            'lengthChange': true,
+            'searching': true,
+            'ordering': true,
+            'info': true,
+            'autoWidth': true,
+            "ajax":{
+                'url': '/bbt/building/loadBuildingList',
+                'data':function () {
+                    return {buildingId:$('#buildingLists .screen_rights div.selected').attr('buildingId'),gradeId:$('#gradeLists .screen_rights div.selected').attr('gradeId')};
+                }
+            },
+            "columnDefs": [ {
+                "targets": 5,
+                "data": null,
+                "searchable":false,
+                "render":function (data, type, row, meta) {
+                    var value=data[6]?data[6]:'';
+                    var value2=data[5]?data[5]:'';
+                    var html='';
+                    if(value){
+                        html+=' <button type="button" roomId="'+value+'"  name="updateRoom" class="btn btn-sm btn-default">修改教室</button> ';
+                    }
+                    if(value2){
+                        html+=' <button type="button"  classId="'+value2+'" name="updateClass" class="btn btn-sm btn-default">修改班级</button> ';
+                    }
+                    html += ' <button type="button"  classId="'+value2+'" roomId="'+value+'" name="removeBuilding" class="btn btn-sm btn-default">解除绑定</button> ';
+                    return ' <button type="button" roomId="'+value+'" classId="'+value2+'" name="updateRoomClass" class="btn btn-sm btn-default">关联</button> ' +
+                         html +
+                        ' <button type="button" roomId="'+value+'"  classId="'+value2+'" name="deleteClassRoom" class="btn btn-sm btn-danger">删除</button>';
+                }
+            } ],
+            "language": { // 定义语言
+                "sProcessing": "加载中...",
+                "sLengthMenu": "每页显示 _MENU_ 条记录",
+                "sZeroRecords": "没有匹配的结果",
+                "sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+                "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
+                "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+                "sInfoPostFix": "",
+                "sSearch": "搜索:",
+                "sUrl": "",
+                "sEmptyTable": "表中数据为空",
+                "sLoadingRecords": "载入中...",
+                "sInfoThousands": ",",
+                "oPaginate": {
+                    "sFirst": "首页",
+                    "sPrevious": "上一页",
+                    "sNext": "下一页",
+                    "sLast": "末页"
+                },
+            }
+        })
+          return buildingTable;
+    };
+
+    //这是筛选样式变换
+    function changeSelected(table) {
+
+        $(document).off('click','.screen_rights div').on('click','.screen_rights div',function () {
+            var isSelected=$(this).hasClass('selected');
+            $('.screen_rights').find('div').removeClass('selected');
+            $('.screen_rights').find('span').remove();
+            if(!isSelected){
+                $(this).addClass('selected');
+                $(this).append('<span>X</span>');
+            }
+
+            table.ajax.reload();
+        })
+
+    }
+    //添加教室班级设备号
+    function doAddRoomClass(table) {
+        $('#addRoomClass').find('.btn-primary').on('click', function () {
+
+
+            $('#addRoomClass').find('form').ajaxSubmit(function (result) {
+                alert(result);
+                $('#addRoomClass').modal('hide');
+                table.ajax.reload();
+            });
+        });
+
+
+        $('#addRoomClass').on('hide.bs.modal', function () {
+            $(this).find('.form-group').removeClass('has-error');
+            $(this).find('.form-group input,select,textarea').val('');
+        })
+    }
+
+    //修改教学楼教室班级设备号
+    function updateRoomGradeClass(table) {
+
+        $(document).off('click','button[name="updateRoomClass"]').on('click','button[name="updateRoomClass"]', function () {
+            var roomId = $(this).attr('roomId');
+            var classId=$(this).attr('classId');
+            $.post('/bbt/building/findBuildingByRoomId', {roomId: roomId,classId:classId}, function (result) {
+                var html='';
+                    html+="<option value="+result.roomCode+">"+result.roomCode+"</option>";
+                $('#updateRoomClass select[name="roomCode"]').empty();
+                $('#updateRoomClass select[name="roomCode"]').append(html);
+                var html1='';
+                    html1+="<option value="+result.classId+" >"+result.className+"</option>";
+                $("#updateRoomClass select[name='classId']").empty();
+                $("#updateRoomClass select[name='classId']").append(html1);
+                $('#updateRoomClass select[name="buildingId"]').val(result.buildingId);
+                $('#updateRoomClass select[name="roomType"]').val(result.roomType);
+                $('#updateRoomClass select[name="roomCode"]').val(result.roomCode);
+                $('#updateRoomClass select[name="gradeId"]').val(result.gradeId);
+                $('#updateRoomClass select[name="classId"]').val(result.classId);
+                $('#updateRoomClass input[name="equipmentNo"]').val(result.equipmentNo);
+                $('#updateRoomClass input[name="roomId"]').val(result.roomId);
+                $('#updateRoomClass input[name="classId"]').val(result.classId);
+
+
+                $('#updateRoomClass').modal('show');
+
+            });
+        });
+
+
+        $('#updateRoomClass').on('hide.bs.modal', function () {
+            $(this).find('.form-group').removeClass('has-error');
+            $(this).find('.form-group input,select,textarea').val('');
+        });
+
+        $('#updateRoomClass').find('.btn-primary').on('click', function () {
+
+
+            $('#updateRoomClass').find('form').ajaxSubmit(function (result) {
+                alert(result);
+                $('#updateRoomClass').modal('hide');
+                table.ajax.reload();
+            });
+        });
+
+    }
+
+    //添加教学楼
+    function doAddBuilding(table) {
+        $('#addBuilding').on('show.bs.modal', function () {
+            $(this).find('.form-group input[name="schoolCode"]').val($('#schoolCode').val());
+        });
+        $('#addBuilding').find('.btn-primary').on('click', function () {
+
+
+            $('#addBuilding').find('form').ajaxSubmit(function (result) {
+                alert(result);
+                //刷新教学楼
+                loadBuildingGrade();
+                $('#addBuilding').modal('hide');
+                table.ajax.reload();
+            });
+        });
+
+
+        $('#addBuilding').on('hide.bs.modal', function () {
+            $(this).find('.form-group').removeClass('has-error');
+            $(this).find('.form-group input,select,textarea').val('');
+        })
+    }
+
+    //添加班级
+    function doAddClass(table) {
+        $('#addClass').find('.btn-primary').on('click', function () {
+
+
+            $('#addClass').find('form').ajaxSubmit(function (result) {
+                alert(result);
+                $('#addClass').modal('hide');
+                table.ajax.reload();
+            });
+        });
+
+
+        $('#addClass').on('hide.bs.modal', function () {
+            $(this).find('.form-group').removeClass('has-error');
+            $(this).find('.form-group input,select,textarea').val('');
+        })
+    }
+
+    //添加教室
+    function doAddClassRoom(table) {
+        $('#addClassRoom').find('.btn-primary').on('click', function () {
+
+
+            $('#addClassRoom').find('form').ajaxSubmit(function (result) {
+                alert(result);
+                $('#addClassRoom').modal('hide');
+                table.ajax.reload();
+            });
+        });
+
+
+        $('#addClassRoom').on('hide.bs.modal', function () {
+            $(this).find('.form-group').removeClass('has-error');
+            $(this).find('.form-group input,select,textarea').val('');
+        })
+    }
+
+    //添加年级
+    function doAddGrade(table) {
+
+        $('#addGrade').on('show.bs.modal', function () {
+            $(this).find('.form-group input[name="schoolCode"]').val($('#schoolCode').val());
+        });
+        $('#addGrade').find('.btn-primary').on('click', function () {
+            $('#addGrade').find('form').ajaxSubmit(function (result) {
+                alert(result);
+                $('#addGrade').modal('hide');
+                table.ajax.reload();
+                loadBuildingGrade();
+            });
+        });
+
+
+        $('#addGrade').on('hide.bs.modal', function () {
+            $(this).find('.form-group').removeClass('has-error');
+            $(this).find('.form-group input,select,textarea').val('');
+        })
+    }
+
+    //删除教室办公室
+    function deleteClassRoom(table) {
+        $(document).off('click','button[name="deleteClassRoom"]').on('click','button[name="deleteClassRoom"]',function () {
+            var flag=confirm('删除教室/办公室,确定要删除吗?');
+            if (!flag){
+                return;
+            }
+            var roomId=$(this).attr('roomId');
+            var classId=$(this).attr('classId');
+            $.post('/bbt/building/deleteClassRoom',{roomId:roomId,classId:classId},function (result){
+                alert(result);
+                table.ajax.reload();
+            });
+        });
+    };
+
+    //删除教学楼
+    function deleteBuilding(table) {
+        $(document).off('click','#buildingLists .screen_rights div span').on('click','#buildingLists .screen_rights div span',function (e) {
+            var flag=confirm('删除教学楼,确定要删除吗?');
+            if (!flag){
+                return;
+            }
+            var buildingId=$(this).parent().attr('buildingId');
+            $.post('/bbt/building/deleteBuilding',{buildingId:buildingId},function (result){
+                alert(result);
+                table.ajax.reload();
+                loadBuildingGrade();
+            });
+            e.stopPropagation();
+        });
+    };
+
+    //删除年级
+    function deleteGrade(table) {
+        $(document).off('click','#gradeLists .screen_rights div span').on('click','#gradeLists .screen_rights div span',function (e) {
+            var flag=confirm('删除年级,确定要删除吗?');
+            if (!flag){
+                return;
+            }
+            var gradeId=$(this).parent().attr('gradeId');
+            $.post('/bbt/building/deleteGrade',{gradeId:gradeId},function (result){
+                alert(result);
+                table.ajax.reload();
+                loadBuildingGrade();
+            });
+            e.stopPropagation();
+        });
+    };
+
+    //查询教室
+    function loadBuildingClassRoom(table) {
+
+        $(document).off('change', '#updateRoomClass select[name="buildingId"]').on('change', '#updateRoomClass select[name="buildingId"]', function () {
+            var buildingId = $(this).val();
+            $.post('/bbt/building/loadBuildingClassRoom', {buildingId: buildingId}, function (result) {
+                var html='';
+                $.each(result,function (index,item) {
+                    html+="<option value="+item[1]+">"+item[1]+"</option>";
+                });
+                $("#updateRoomClass select[name='roomCode']").empty();
+                $("#updateRoomClass select[name='roomCode']").append(html);
+            });
+        });
+    }
+
+    //动态查询班级
+    function loadBuildingGradeClass(table) {
+        $(document).off('change', '#updateRoomClass select[name="gradeId"]').on('change', '#updateRoomClass select[name="gradeId"]', function () {
+            var gradeId = $(this).val();
+            $.post('/bbt/building/loadBuildingGradeClass', {gradeId: gradeId}, function (result) {
+                var html='';
+                $.each(result,function (index,item) {
+                    html+="<option value="+item[0]+">"+item[1]+"</option>";
+                });
+                $("#updateRoomClass select[name='classId']").empty();
+                $("#updateRoomClass select[name='classId']").append(html);
+            });
+        });
+    }
+
+    //动态加载教学楼
+    function loadBuildingGrade(){
+
+        var schoolCode = $('#schoolCode').val();
+        //动态加载教学楼
+        $.post('/bbt/building/loadBuilding', {schoolCode:schoolCode}, function (result) {
+            var html='';
+            $.each(result,function (index,item) {
+                html+="<div buildingId="+item[1]+">"+item[0]+"</div>";
+            });
+            $("#buildingLists .screen_rights").empty();
+            $("#buildingLists .screen_rights").append(html);
+            //刷新教学楼
+            var html1='';
+            $.each(result,function (index,item) {
+                html1+="<option value ="+item[1]+">"+item[0]+"</option>";
+            });
+            $("#updateRoomClass select[name='buildingId']").empty();
+            $("#updateRoomClass select[name='buildingId']").append(html1);
+            $("#addClassRoom select[name='buildingId']").empty();
+            $("#addClassRoom select[name='buildingId']").append(html1);
+            $("#addRoomClass select[name='buildingId']").empty();
+            $("#addRoomClass select[name='buildingId']").append(html1);
+        });
+        //动态加载年级
+        $.post('/bbt/building/loadGrade', {schoolCode:schoolCode}, function (result) {
+            var html='';
+            $.each(result,function (index,item) {
+                html+="<div gradeId="+item[1]+">"+item[0]+"</div>";
+            });
+            $("#gradeLists .screen_rights").empty();
+            $("#gradeLists .screen_rights").append(html);
+            var html1='';
+            $.each(result,function (index,item) {
+                html1+="<option value="+item[1]+">"+item[0]+"</option>";
+            });
+            //刷新年级
+            $("#addRoomClass select[name='gradeId']").empty();
+            $("#addRoomClass select[name='gradeId']").append(html1);
+            $("#updateClass select[name='gradeId']").empty();
+            $("#updateClass select[name='gradeId']").append(html1);
+            $("#updateRoomClass select[name='gradeId']").empty();
+            $("#updateRoomClass select[name='gradeId']").append(html1);
+            $("#addClass select[name='gradeId']").empty();
+            $("#addClass select[name='gradeId']").append(html1);
+
+        });
+    }
+
+    //修改教室
+    function updateRoom(table) {
+
+        $(document).off('click','button[name="updateRoom"]').on('click','button[name="updateRoom"]', function () {
+            var roomId = $(this).attr('roomId');
+            $.post('/bbt/building/findBuildingByRoomId', {roomId: roomId}, function (result) {
+                var html='';
+                html+="<option value="+result.roomCode+">"+result.roomCode+"</option>";
+                $('#updateRoom select[name="roomCode"]').empty();
+                $('#updateRoom select[name="roomCode"]').append(html);
+                $('#updateRoom select[name="buildingId"]').val(result.buildingId);
+                $('#updateRoom select[name="roomType"]').val(result.roomType);
+                $('#updateRoom input[name="roomCode"]').val(result.roomCode);
+                $('#updateRoom input[name="roomId"]').val(result.roomId);
+
+                $('#updateRoom').modal('show');
+
+            });
+        });
+
+
+        $('#updateRoom').on('hide.bs.modal', function () {
+            $(this).find('.form-group').removeClass('has-error');
+            $(this).find('.form-group input,select,textarea').val('');
+        });
+
+        $('#updateRoom').find('.btn-primary').on('click', function () {
+
+
+            $('#updateRoom').find('form').ajaxSubmit(function (result) {
+                alert(result);
+                $('#updateRoom').modal('hide');
+                table.ajax.reload();
+            });
+        });
+
+    }
+
+    //修改班级
+    function updateClass(table) {
+
+        $(document).off('click','button[name="updateClass"]').on('click','button[name="updateClass"]', function () {
+            var classId = $(this).attr('classId');
+            var roomId = $(this).attr('roomId');
+            $.post('/bbt/building/findBuildingByRoomId', {classId: classId,roomId:roomId}, function (result) {
+
+                $('#updateClass select[name="gradeId"]').val(result.gradeId);
+                $('#updateClass input[name="className"]').val(result.className);
+                $('#updateClass input[name="roomId"]').val(result.roomId);
+                $('#updateClass input[name="classId"]').val(result.classId);
+                $('#updateClass select[name="userId"]').val(result.userId);
+
+                $('#updateClass').modal('show');
+
+            });
+        });
+
+
+        $('#updateClass').on('hide.bs.modal', function () {
+            $(this).find('.form-group').removeClass('has-error');
+            $(this).find('.form-group input,select,textarea').val('');
+        });
+
+        $('#updateClass').find('.btn-primary').on('click', function () {
+
+
+            $('#updateClass').find('form').ajaxSubmit(function (result) {
+                alert(result);
+                $('#updateClass').modal('hide');
+                table.ajax.reload();
+            });
+        });
+
+    }
+
+    //修改班级
+    function removeBuilding(table) {
+
+        $(document).off('click','button[name="removeBuilding"]').on('click','button[name="removeBuilding"]', function () {
+            var classId = $(this).attr('classId');
+            var roomId = $(this).attr('roomId');
+            $('#removeBuilding').find('input[name="classId"]').val(classId);
+            $('#removeBuilding').find('input[name="roomId"]').val(roomId);
+            $('#removeBuilding').find('input[name="classRoomId"]').val(1);
+            $('#removeBuilding').find('input[name="eqClassRoom"]').val(2);
+            $('#removeBuilding').modal('show');
+        });
+
+
+        $('#removeBuilding').on('hide.bs.modal', function () {
+            $(this).find('.form-group').removeClass('has-error');
+            $(this).find('.form-group input,select,textarea').val('');
+        });
+
+        $('#removeBuilding').find('.btn-primary').on('click', function () {
+
+
+            $('#removeBuilding').find('form').ajaxSubmit(function (result) {
+                alert(result);
+                $('#removeBuilding').modal('hide');
+                table.ajax.reload();
+            });
+        });
+
+    }
+
+
+</script>
+</html>

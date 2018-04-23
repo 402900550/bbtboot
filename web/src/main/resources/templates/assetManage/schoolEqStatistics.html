@@ -1,0 +1,138 @@
+<html>
+<style>
+    #schoolDetailTable tr{
+        cursor: pointer;
+    }
+</style>
+<section class="content-header">
+    <h1 th:text="${school.name}+'--设备情况'">天星桥中学--设备情况</h1>
+    <ol class="breadcrumb">
+        <li>
+            <a href="#"><i class="fa fa-home"></i> 资产管理</a>
+        </li>
+        <li class="active">资产统计</li>
+    </ol>
+    <!--这是页面定位结束-->
+</section>
+
+<section class="content">
+    <!--这是用户列表开始-->
+    <div class="box">
+
+        <div class="box-body" style="background: #ffffff !important;">
+            <table id="schoolDetailTable" class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th>班级名称</th>
+                    <th>配备类型</th>
+                    <th>是否检测</th>
+                    <th>资产总额</th>
+                    <th>建设年代</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+
+            </table>
+
+        </div>
+
+    </div><!--这是用户列表结束-->
+</section>
+
+<script th:inline="javascript">
+    $(function () {
+        loadSchoolStatistics();
+        forwardClassStatics();
+    });
+
+    function loadSchoolStatistics() {
+        $('#schoolDetailTable').DataTable({
+            'paging': true,
+            'lengthChange': true,
+            'searching': true,
+            'ordering': true,
+            'info': true,
+            'autoWidth': true,
+            "ajax": {
+                'url': '/bbt/statis/loadSchoolAssetStatis',
+                'data': {
+                    schoolCode: [[${school.schoolCode}]]
+                }
+            },
+            "columnDefs": [{
+                "targets": 1,
+                "data": null,
+                "render": function (data, type, row, meta) {
+                    return data[1] ? data[1] : "无";
+                }
+            }, {
+                "targets": 2,
+                "data": null,
+                "render": function (data, type, row, meta) {
+                    return data[2] ? "是" : "否";
+                }
+            },
+                {
+                    "targets": 3,
+                    "data": null,
+                    "render": function (data, type, row, meta) {
+                        return data[3] ? data[3] : 0;
+                    }
+                }, {
+                    "targets": 4,
+                    "data": null,
+                    "render": function (data, type, row, meta) {
+                        return data[4] ? data[4] : "无";
+                    }
+                }, {
+                    "targets": 5,
+                    "data": null,
+                    "searchable": false,
+                    "render": function (data, type, row, meta) {
+                        return ' <button type="button" classId="' + data[5] + '" name="lookClassStatic" class="btn btn-sm btn-default">班级详情</button> ';
+                    }
+                }
+            ],
+            "language": { // 定义语言
+                "sProcessing": "加载中...",
+                "sLengthMenu": "每页显示 _MENU_ 条记录",
+                "sZeroRecords": "没有匹配的结果",
+                "sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+                "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
+                "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+                "sInfoPostFix": "",
+                "sSearch": "搜索:",
+                "sUrl": "",
+                "sEmptyTable": "表中数据为空",
+                "sLoadingRecords": "载入中...",
+                "sInfoThousands": ",",
+                "oPaginate": {
+                    "sFirst": "首页",
+                    "sPrevious": "上一页",
+                    "sNext": "下一页",
+                    "sLast": "末页"
+                },
+            }
+        })
+    }
+
+
+    function forwardClassStatics() {
+
+        $(document).off('click','button[name="lookClassStatic"]').on('click','button[name="lookClassStatic"]',function (e) {
+            var classId=$(this).attr('classId');
+            $.post('/bbt/statis/forwardClassesStatics', {classId: classId}, function (result) {
+                $('.content-wrapper').empty();
+                $('.content-wrapper').html(result);
+            });
+            e.stopPropagation();
+        })
+
+        $(document).off('click','#schoolDetailTable tr').on('click','#schoolDetailTable tr',function () {
+            $(this).find('button[name="lookClassStatic"]').trigger('click');
+        })
+
+    }
+
+</script>
+</html>

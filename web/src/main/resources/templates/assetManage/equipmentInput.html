@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>设备录入</title>
+    <link rel="stylesheet" th:href="@{/css/equipmentInput.css}"/>
+</head>
+<body>
+<section class="content-header">
+    <h1>资产管理</h1>
+    <!--这是页面定位开始-->
+    <ol class="breadcrumb">
+        <li>
+            <a href="#"><i class="fa fa-home"></i> 资产管理-设备录入</a>
+        </li>
+        <li class="active">设备录入</li>
+    </ol>
+    <!--这是页面定位结束-->
+</section>
+<section class="all_warp">
+    <div class="the_warp">
+        <section class="col-lg-12" style="margin-left: 15px;">
+            <div class="input_warp">
+                <select class="equipmentInput" disabled="disabled">
+                    <option th:if="${currentSchool!=null}" th:value="${currentSchool.schoolCode}"
+                            th:text="${currentSchool.name}">天星桥
+                    </option>
+                </select>
+            </div>
+        </section>
+        <section class="col-lg-12" style="margin-left: 15px;">
+            <div class="input_warp">
+                <select class="equipmentInput" id="building">
+                    <option value="">选择教学楼</option>
+                    <option th:each="building : ${buildings}" th:value="${building.id}"
+                            th:text="${building.buildingName}"></option>
+                </select>
+            </div>
+            <div class="input_warp">
+                <select class="equipmentInput" id="classRoom">
+                    <option value="">选择教室</option>
+                </select>
+            </div>
+            <div class="input_warp">
+                <input class="equipmentInput" placeholder="年级" id="grade" disabled="disabled"/>
+            </div>
+            <div class="input_warp">
+                <input class="equipmentInput" placeholder="班级" id="classes" disabled="disabled"/>
+            </div>
+        </section>
+        <section class="col-lg-12" style="margin-left: 15px;">
+            <div class="input_warp">
+                <select class="equipmentInput" id="developType">
+                    <option>配备类型</option>
+                    <option th:each="develop : ${allDevelops}" th:value="${develop.id}" th:text="${develop.name}">教学楼
+                    </option>
+                </select>
+            </div>
+            <div class="input_warp">
+                <input class="equipmentInput" placeholder="人工及耗材费" id="personCost"/>
+            </div>
+            <div class="input_warp">
+                <input class="equipmentInput" placeholder="负责人" id="manager"/>
+            </div>
+            <div class="input_warp">
+                <input type="date" class="equipmentInput" id="inputDate" placeholder="采购日期"/>
+            </div>
+        </section>
+        <section class="col-lg-12" id="equipmentTemplate" style="display: none">
+            <div class="input_warp">
+                <select class="equipmentInput" name="accessoryName">
+                    <option value="">设备名称</option>
+                    <option th:each="acname : ${allAcNames}" th:value="${acname.id}" th:text="${acname.name}">教学楼
+                    </option>
+                </select>
+            </div>
+            <div class="input_warp">
+                <select class="equipmentInput" name="brand">
+                    <option value="">设备品牌</option>
+                    <option th:each="brand : ${allBrands}" th:value="${brand.id}" th:text="${brand.name}">教学楼</option>
+                </select>
+            </div>
+            <div class="input_warp">
+                <select class="equipmentInput" name="model">
+                    <option value="">规格型号</option>
+                    <option th:each="model : ${allModels}" th:value="${model.id}" th:text="${model.name}">教学楼</option>
+                </select>
+            </div>
+            <div class="input_warp" style="width: 280px;">
+                <input class="equipmentInput" name="price" value="" placeholder="单价(元)"/>
+                <input type="hidden" name="accessoryId" value=""/>
+                <span class="deleteAcHtml">—</span>
+            </div>
+        </section>
+        <div class="col-lg-12" style="margin-bottom: 20px;margin-top:40px;" id="equipments">
+
+
+        </div>
+        <button class="btn btn-flat input_add" id="addAccessory">
+            <i class="fa fa-plus "></i>
+            新增设备
+        </button>
+
+    </div>
+    <button id="doSaveAccess" type="button" class="btn bg-purple"
+            style="margin-top:20px;margin-left:47%;margin-bottom: 20px;">
+        <i class="fa fa-save"></i>
+        保存
+    </button>
+</section>
+
+<script>
+
+    $(function () {
+        changeBuilding();
+        changeClassRoom();
+        //添加设备按钮
+        addAccessory();
+        //删除设备
+        deleteAccHtml();
+
+        //执行保存
+        doSaveAccess();
+    });
+
+    //改变教学楼动态加载教室
+    function changeBuilding() {
+        $(document).off('change','#building').on('change', '#building', function () {
+            var buildingId = $(this).val();
+
+            $.post('/bbt/equipmentinput/loadClassRoomByBuliding', {buildingId: buildingId}, function (result) {
+                var cl = $('#classRoom');
+                cl.empty();
+                cl.append('<option value="">选择教室</option>');
+                var htmls = '';
+                $.each(result, function (index, item) {
+                    var classRoomId = item[0];
+                    var roomCode = item[1];
+                    htmls += '<option value="' + classRoomId + '">' + roomCode + '</option>';
+                });
+                cl.append(htmls);
+                $('#classRoom').trigger('change');
+            })
+
+
+        })
+    }
+
+    //改变教室动态加载年级班级 以及已经存在的设备
+    function changeClassRoom() {
+        $(document).off('change','#classRoom').on('change', '#classRoom', function () {
+            var roomId = $(this).val();
+            $.post('/bbt/equipmentinput/loadClassAndGradeAndEquipment', {roomId: roomId}, function (result) {
+                $('#grade').val('');
+                $('#classes').val('');
+                var gradeName = result.gradeName ? result.gradeName : '未设置年级';
+                var classesName = result.className ? result.className : '未设置班级';
+                $('#grade').val(gradeName);
+                $('#classes').val(classesName);
+                var manager = result.manager;
+                var personCost = result.personCost;
+                var developTypeId = result.developTypeId;
+                var inputDate = $('#inputDate').val(result.inputDate);
+                $('#manager').val(manager);
+                $('#personCost').val(personCost);
+                if (developTypeId) {
+                    $('#developType').val(developTypeId);
+                }
+                var accessories = result.accessories;
+                $('#equipments').empty();
+                $.each(accessories, function (index, item) {
+                    var accNameId = item[0];
+                    var brandId = item[1];
+                    var modelId = item[2];
+                    var price = item[3];
+                    var acId = item[4];
+                    console.log(accNameId + "---" + brandId + "--" + modelId + "--" + price + "--" + acId);
+
+                    $('#equipments').append($('#equipmentTemplate').clone());
+                    $('#equipments section').eq(index).find('select[name="accessoryName"]').val(accNameId);
+                    $('#equipments section').eq(index).find('select[name="brand"]').val(brandId);
+                    $('#equipments section').eq(index).find('select[name="model"]').val(modelId);
+                    $('#equipments section').eq(index).find('input[name="price"]').val(price);
+                    $('#equipments section').eq(index).find('input[name="accessoryId"]').val(acId);
+                    $('#equipments section').removeAttr('id');
+                    $('#equipments').find('section').show();
+                })
+            })
+        });
+    }
+
+    //添加设备的按钮html
+    function addAccessory() {
+        $(document).off('click','#addAccessory').on('click', '#addAccessory', function () {
+
+            if ($('#equipments section').length > 10) {
+                alert("最多添加10个设备!");
+                return;
+            }
+            $('#equipments').append($('#equipmentTemplate').clone());
+
+            $('#equipments').find('section').show();
+        });
+    }
+
+    //删除设备
+    function deleteAccHtml() {
+        $(document).off('click','.deleteAcHtml').on('click', '.deleteAcHtml', function () {
+            var $this = $(this);
+            var accessoryId = $this.parent().find('input[name="accessoryId"]').val();
+            if (accessoryId) {
+                var con = confirm("该设备已经存在于该教室,是否真的删除？");
+                if (con) {
+                    $.post('/bbt/equipmentinput/deleteAccessoryById', {accessoryId: accessoryId}, function (result) {
+                        alert("删除成功!");
+                        $this.parent().parent().remove();
+                    })
+                }
+            } else {
+                $this.parent().parent().remove();
+            }
+
+        })
+    }
+
+
+    //执行保存
+    function doSaveAccess() {
+        $(document).off('click','#doSaveAccess').on('click', '#doSaveAccess', function () {
+            var equipments = [];
+            $('#equipments section').each(function () {
+                var accessory = {};
+                var nameId = $(this).find('select[name="accessoryName"]').val();
+                var brandId = $(this).find('select[name="brand"]').val();
+                var modelId = $(this).find('select[name="model"]').val();
+                var price = $(this).find('input[name="price"]').val();
+                var accessoryId = $(this).find('input[name="accessoryId"]').val();
+                accessory.nameId = nameId;
+                accessory.brandId = brandId;
+                accessory.modelId = modelId;
+                accessory.price = price;
+                accessory.accessoryId = accessoryId;
+                equipments.push(accessory);
+            });
+            var data = {
+                roomId: $('#classRoom').val(),
+                developTypeId: $('#developType').val(),
+                personCost:$('#personCost').val(),
+                manager:$('#manager').val(),
+                inputDate:$('#inputDate').val(),
+                equipments:JSON.stringify(equipments)
+            };
+
+            $.post('/bbt/equipmentinput/doSaveAccessories',data,function (result) {
+                alert(result);
+                $('#classRoom').trigger('change');
+            })
+
+        })
+    }
+
+
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
